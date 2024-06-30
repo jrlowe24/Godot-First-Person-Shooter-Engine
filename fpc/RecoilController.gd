@@ -29,13 +29,21 @@ var gunCurrentRotation : Vector3
 
 var gunRecoilController : Node3D
 var WeaponController : Node3D
+var camera : Camera3D
 var isFirstShot : bool = true
 var cooldown : float = 0
 var currRecoilCooldown : float = 0
+
+var base_fov : float = 0
+var target_fov : float = 0
+var curr_fov : float = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	gunRecoilController = $Camera/WeaponController/GunRecoilController # Replace with function body.
 	WeaponController = $Camera/WeaponController
+	camera = $Camera
+	base_fov = camera.fov
+	curr_fov = base_fov
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -58,6 +66,8 @@ func _process(delta):
 		gunRecoilController.position = gunTargetPosition
 		gunRecoilController.rotation = gunTargetRotation
 	
+	target_fov = lerp(target_fov, base_fov, delta*10.0)
+	camera.fov = target_fov
 func shoot():
 	var recX = 0
 	var recY = 0
@@ -82,3 +92,6 @@ func shoot():
 	cooldown = CooldownLastShot
 	currRecoilCooldown = RecoilCooldown
 	isFirstShot = false
+	
+	target_fov += 2
+	target_fov = clampf(target_fov, 0, base_fov + 2)

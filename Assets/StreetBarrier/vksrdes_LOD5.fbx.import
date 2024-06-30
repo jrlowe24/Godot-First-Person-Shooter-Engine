@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://blt62fls1ggby"
-path="res://.godot/imported/GunRigV3.glb-fdfbeacc98f8db6d127134bb055f7b85.scn"
+uid="uid://t2kc06iio2ct"
+path="res://.godot/imported/vksrdes_LOD5.fbx-380e332988780bb4cd775f14e9a5e021.scn"
 
 [deps]
 
-source_file="res://Assets/Weapon/GunRigV3.glb"
-dest_files=["res://.godot/imported/GunRigV3.glb-fdfbeacc98f8db6d127134bb055f7b85.scn"]
+source_file="res://Assets/StreetBarrier/vksrdes_LOD5.fbx"
+dest_files=["res://.godot/imported/vksrdes_LOD5.fbx-380e332988780bb4cd775f14e9a5e021.scn"]
 
 [params]
 

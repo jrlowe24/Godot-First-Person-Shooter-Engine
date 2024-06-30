@@ -11,7 +11,7 @@ func _ready():
 	var currSize = decal.size.x
 	var adjustment = randf_range(- sizeVariation, sizeVariation)
 	var newSize = currSize + adjustment
-	decal.size = Vector3(newSize, newSize, newSize)
+	decal.size = Vector3(newSize, newSize, currSize)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

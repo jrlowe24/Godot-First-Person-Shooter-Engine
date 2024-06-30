@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7o2jytg1jkdq"]
+[gd_scene load_steps=10 format=3 uid="uid://c7p7vbw4qvwpa"]
 
-[ext_resource type="Texture2D" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Albedo.jpg" id="1_etinf"]
-[ext_resource type="Texture2D" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Displacement.jpg" id="2_2omnn"]
-[ext_resource type="Texture2D" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Specular.jpg" id="3_igtvl"]
-[ext_resource type="Texture2D" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Normal_LOD0.jpg" id="4_mt0ep"]
-[ext_resource type="Texture2D" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Roughness.jpg" id="5_odxst"]
+[ext_resource type="Texture2D" uid="uid://btcb4o3pnn8v6" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Albedo.jpg" id="1_etinf"]
+[ext_resource type="Texture2D" uid="uid://bf2i4nut3154g" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Displacement.jpg" id="2_2omnn"]
+[ext_resource type="Texture2D" uid="uid://q8ubmfe7n25q" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Specular.jpg" id="3_igtvl"]
+[ext_resource type="Texture2D" uid="uid://cobrs41ygqvro" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Normal_LOD0.jpg" id="4_mt0ep"]
+[ext_resource type="Texture2D" uid="uid://dxt6nlxjo380d" path="res://Assets/Street_Barrier_vksrdes_2K_3d_ms/vksrdes_2K_Roughness.jpg" id="5_odxst"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkr7f"]
 resource_name = "default_material"

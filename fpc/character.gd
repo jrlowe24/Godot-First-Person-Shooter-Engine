@@ -208,6 +208,8 @@ func handle_jumping():
 					pass
 					JUMP_ANIMATION.play("jump", 0.25)
 				velocity.y += jump_velocity
+				if state == "crouching":
+					enter_normal_state()
 
 func handle_movement(delta, input_dir):
 	var direction = input_dir.rotated(-HEAD.rotation.y)

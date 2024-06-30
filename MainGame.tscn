@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://nm7buq8ngt1j"]
 
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://fpc/character.tscn" id="1_s4aoh"]
-[ext_resource type="Material" uid="uid://c6p7ifh4jr7tc" path="res://Assets/Weapon/TemplateGrid.tres" id="2_ejdv7"]
-[ext_resource type="PackedScene" uid="uid://c7p7vbw4qvwpa" path="res://Assets/LOD0Barrier.tscn" id="3_xepx5"]
+[ext_resource type="Material" path="res://Assets/templategrid/TemplateGrid.tres" id="2_3p114"]
+[ext_resource type="PackedScene" uid="uid://c7o2jytg1jkdq" path="res://Assets/LOD0Barrier.tscn" id="3_xepx5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jah2a"]
 
@@ -21,11 +21,12 @@ glow_enabled = true
 
 [node name="Character" parent="." instance=ExtResource("1_s4aoh")]
 jump_velocity = 3.0
+crouch_mode = 1
 
 [node name="CameraRecoilController" parent="Character/Head" index="0"]
 camRecoilX = -0.01
 camRecoilY = 0.01
-camRecoilZ = 0.03
+camRecoilZ = 0.015
 camSnappiness = 20.0
 camReturnSpeed = 25.0
 CameraRecoilEnabled = true
@@ -36,9 +37,6 @@ gunRecoilY = -0.01
 gunRecoilZ = 0.06
 gunRotRecoilX = 0.02
 GunRecoilEnabled = true
-
-[node name="Camera" parent="Character/Head/CameraRecoilController" index="0"]
-transform = Transform3D(1, 0, 0, 0, 0.999391, -0.0348995, 0, 0.0348995, 0.999391, 0, 0, 0)
 
 [node name="WeaponController" parent="Character/Head/CameraRecoilController/Camera" index="0" node_paths=PackedStringArray("Evironment")]
 Evironment = NodePath("../../../../../Environment")
@@ -63,14 +61,14 @@ shadow_enabled = true
 transform = Transform3D(40, 0, 0, 0, 1, 0, 0, 0, 40, 2.08165e-12, -0.0653563, 2.08165e-12)
 use_collision = true
 size = Vector3(1, 0.1203, 1)
-material = ExtResource("2_ejdv7")
+material = ExtResource("2_3p114")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.01868, 0.757656, -4.10394)
 use_collision = true
 collision_mask = 3
 size = Vector3(1.99365, 1.63098, 1)
-material = ExtResource("2_ejdv7")
+material = ExtResource("2_3p114")
 
 [node name="Barrier" parent="Environment" instance=ExtResource("3_xepx5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.76221)

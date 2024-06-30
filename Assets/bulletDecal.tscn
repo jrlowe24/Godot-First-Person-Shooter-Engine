@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://34fmr0aq7mdg"]
+
+[ext_resource type="Texture2D" uid="uid://qn1307bp2fom" path="res://Assets/dfa7263ccf0babaad1c648a155681bd5.png" id="1_cy2jk"]
+[ext_resource type="Script" path="res://bulletDecal.gd" id="2_rqhay"]
+
+[sub_resource type="Animation" id="Animation_jy1md"]
+resource_name = "FadeOut"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Decal")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, -0.00684182, 0, 1, 1, 0, 0.0908601, 0)
+
+[sub_resource type="Animation" id="Animation_hsso0"]
+resource_name = "Reset"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Decal")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, -0.00684182, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jhe0y"]
+_data = {
+"FadeOut": SubResource("Animation_jy1md"),
+"Reset": SubResource("Animation_hsso0")
+}
+
+[node name="DecalNode" type="Node3D"]
+script = ExtResource("2_rqhay")
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00684182, 0)
+size = Vector3(0.075, 0.075, 0.075)
+texture_albedo = ExtResource("1_cy2jk")
+emission_energy = 0.0
+albedo_mix = 0.9
+upper_fade = 1e-05
+lower_fade = 1e-05
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jhe0y")
+}

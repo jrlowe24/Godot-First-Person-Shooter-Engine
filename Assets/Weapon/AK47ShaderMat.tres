@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://cm77njcplupkr"]
+
+[ext_resource type="Shader" path="res://Assets/Weapon/GunRigV3.gdshader" id="1_rnopd"]
+[ext_resource type="Texture2D" uid="uid://dg8jsm1ugl7i3" path="res://Assets/Weapon/AK_103_Base_Color.png" id="2_p4nf0"]
+[ext_resource type="Texture2D" uid="uid://bauqqp6c1n3yy" path="res://Assets/Weapon/AK_103_Metallic.png" id="3_rt6qe"]
+[ext_resource type="Texture2D" uid="uid://bb4705ohn8o4a" path="res://Assets/Weapon/AK_103_Normal.png" id="4_s3c6r"]
+[ext_resource type="Texture2D" uid="uid://ct4htuca63vje" path="res://Assets/Weapon/AK_103_Roughness.png" id="5_jhd4u"]
+
+[resource]
+resource_name = "Default_Material.001"
+render_priority = 0
+shader = ExtResource("1_rnopd")
+shader_parameter/albedo = Color(0.735357, 0.735357, 0.735357, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.58
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.31
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/fov = 47.0
+shader_parameter/texture_albedo = ExtResource("2_p4nf0")
+shader_parameter/texture_metallic = ExtResource("3_rt6qe")
+shader_parameter/texture_roughness = ExtResource("5_jhd4u")
+shader_parameter/texture_normal = ExtResource("4_s3c6r")

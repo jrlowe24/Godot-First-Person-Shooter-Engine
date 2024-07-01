@@ -271,7 +271,7 @@ func handle_state(moving):
 	if sprint_enabled:
 		# hold to sprint
 		if sprint_mode == 0:
-			if Input.is_action_pressed(SPRINT) and Input.is_action_pressed(FORWARD) and state != "crouching" and state != "climbing":
+			if Input.is_action_pressed(SPRINT) and Input.is_action_pressed(FORWARD) and state != "climbing" and !Input.is_action_pressed("aim"):
 				if moving:
 					if state != "sprinting":
 						enter_sprint_state()

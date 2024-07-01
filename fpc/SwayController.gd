@@ -19,8 +19,13 @@ var swayPosition : Vector3
 @export var smoothRot : float = 15
 @export var bobAdsMultiplier : float = .05
 @export var bobCurveMultiplier : float = 2
+@export var runPosition : Vector3
+@export var sprintRotation : Vector3
+@export var maxBobSpeed : float
 var bobPosition : Vector3
 var bobEulerRotation : Vector3
+var basePosition : Vector3
+var baseRotation : Vector3
 
 # current values
 var sway
@@ -36,15 +41,15 @@ var speedCurve : float = 0.01
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	process_input(delta)
-	speedCurve += delta * get_speed() * bobCurveMultiplier + .01
+	speedCurve += delta * min(get_speed(), maxBobSpeed)  * bobCurveMultiplier + .01
 	if swayEnabled:
 		process_sway(delta)
 	if bobEnabled:
 		process_bob(delta)
 		process_bobRotation(delta)
 	
-	self.position = lerp(self.position, swayPosition + bobPosition, delta * swaySmooth)
-	self.quaternion = self.quaternion.slerp(Quaternion.from_euler(bobEulerRotation), delta * smoothRot)
+	self.position = lerp(self.position, swayPosition + bobPosition + basePosition, delta * swaySmooth)
+	self.quaternion = self.quaternion.slerp(Quaternion.from_euler(bobEulerRotation) * Quaternion.from_euler(baseRotation), delta * smoothRot)
 	
 	# Zero out mouse delta due to issues with it updating with 0
 	#lookInput.x = 0
@@ -59,9 +64,14 @@ func process_bobRotation(delta):
 
 func process_bob(delta):
 	var vel = character.get_real_velocity()
-	bobPosition.x = (cos(speedCurve) * bobLim.x) - (walkInput.x * travel.x)
-	bobPosition.y = (sin(speedCurve * 2) * bobLim.y) - (vel.y * 2 * travel.y)
-	bobPosition.z = -(walkInput.y * travel.z)
+	if character.is_on_floor():
+		bobPosition.x = (cos(speedCurve) * bobLim.x) - (walkInput.x * travel.x)
+		bobPosition.y = (sin(speedCurve * 2) * bobLim.y) - (vel.y * 2 * travel.y)
+		bobPosition.z = -(walkInput.y * travel.z)
+	else:
+		bobPosition.x = - (walkInput.x * travel.x)
+		bobPosition.y = - (vel.y * 2 * travel.y)
+		bobPosition.z = - (walkInput.y * travel.z)
 
 func process_sway(delta):		
 	var invertLook : Vector2 = lookInput * -sway
@@ -88,10 +98,18 @@ func process_input(delta):
 		bobMultiplier = multiplier
 		travel = travelLimit
 		bobLim = bobLimit
+	
 		
 	# make bobLim a gradient based on speed
 	bobLim = bobLim *  max(get_speed(), .4)
 	
+	if character.state == "sprinting":
+		basePosition = runPosition
+		baseRotation = sprintRotation
+		bobLim = bobLim * 1.5
+	else:
+		basePosition = Vector3.ZERO
+		baseRotation = Vector3.ZERO
 
 	## Gamepad support
 	var x_axis = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)

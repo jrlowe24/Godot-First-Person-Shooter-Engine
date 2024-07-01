@@ -30,6 +30,8 @@ var RETICLE : Control
 var weaponHolder : Node3D
 # list of weapons
 var weaponList : Array
+# max number of weapons
+var maxWeapons : int = 2
 # index of current weapon
 var curr_weapon : int = 0
 
@@ -57,22 +59,25 @@ func _ready():
 	
 func _process(delta):
 	process_inputs(delta)
-	if ADS:
-		RETICLE.visible = false
-		weaponHolder.position = lerp(weaponHolder.position, getCurrWeaponProperty("ADS_Position"), delta * getCurrWeaponProperty("ADS_Speed"))
-	else:
-		RETICLE.visible = true
-		weaponHolder.position = lerp(weaponHolder.position, Vector3.ZERO, delta * getCurrWeaponProperty("ADS_Speed"))
 	
+	## ADS logic
+	if getCurrWeapon(): 
+		var target_position : Vector3
+		if ADS:
+			RETICLE.visible = false
+			target_position = getCurrWeaponProperty("ADS_Position")
+		else:
+			RETICLE.visible = true
+			target_position = Vector3.ZERO
+		weaponHolder.position = lerp(weaponHolder.position, target_position, delta * getCurrWeaponProperty("ADS_Speed"))
+	
+	## Weapon Swapping
 	if weaponState == "swapping":
 		# wait until animation putting away current weapon is done
 		if animationTime <= -.2:
-			if curr_weapon == 0:
-				weaponList[0].visible = true
-				weaponList[1].visible = false
-			else:
-				weaponList[0].visible = false
-				weaponList[1].visible = true
+			weaponList[curr_weapon].visible = false
+			curr_weapon = (curr_weapon + 1) % len(weaponList)
+			weaponList[curr_weapon].visible = true
 			weaponOperations.play_backwards("WeaponExit")
 			weaponState = "idle"
 	animationTime -= delta
@@ -90,17 +95,26 @@ func process_inputs(delta):
 	# weapon swapping
 	if Input.is_action_just_pressed("item1"):
 		swapWeapons()
+	
+	if Input.is_action_just_pressed("dropItem"):
+		pass
+		#dropCurrWeapon()
 
 func swapWeapons():
-	if curr_weapon == 0:
-		curr_weapon = 1
-	else:
-		curr_weapon = 0
-		
-	weaponOperations.play("WeaponExit")
-	weaponState = "swapping"
-	animationTime = weaponOperations.get_animation("WeaponExit").length
-		
+	if len(weaponList) > 1:
+		weaponOperations.play("WeaponExit")
+		weaponState = "swapping"
+		animationTime = weaponOperations.get_animation("WeaponExit").length
+
+func dropCurrWeapon():
+	getCurrWeapon().drop()
+	var global_trans = getCurrWeapon().global_transform
+	weaponHolder.remove_child(getCurrWeapon())
+	Evironment.add_child(getCurrWeapon())
+	getCurrWeapon().global_transform = global_trans
+	#weaponList.erase(getCurrWeapon())
+	#swapWeapons()
+
 func useWeapon(delta):
 	if shootTimer > (1 / getCurrWeaponProperty("Fire_Rate")) and weaponState != "swapping":
 		shootTimer = 0
@@ -128,7 +142,10 @@ func useWeapon(delta):
 
 # returns the currently equipped weapon node
 func getCurrWeapon():
-	return self.weaponList[self.curr_weapon]
+	if self.curr_weapon <= len(self.weaponList) - 1:
+		return self.weaponList[self.curr_weapon]
+	else:
+		return null
 
 func getCurrWeaponProperty(property):
 	return self.weaponList[self.curr_weapon].gun_stats.get(property)

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=2 format=3 uid="uid://bp7ko5irqh8xr"]
+
+[ext_resource type="Script" path="res://WeaponStats.gd" id="1_etdps"]
+
+[resource]
+script = ExtResource("1_etdps")
+ADS_Position = Vector3(-0.133, 0.055, 0.3)
+ADS_Speed = 15.0

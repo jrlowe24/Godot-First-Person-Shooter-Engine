@@ -5,7 +5,6 @@ extends Node3D
 @export var character : CharacterBody3D
 @export var recoilController : Node3D
 @export var Evironment : Node3D
-@export var WeaponList : Array
 
 var weaponState : String
 #temp gun variables
@@ -21,15 +20,33 @@ var shootTimer : float = 0
 var ADS : bool = false
 var animationTime : float
 
+## Item Slots
+var weaponHolder : Node3D
+var primary : Node3D
+var secondary : Node3D
+var weaponList : Array
+var curr_weapon : int = 0
+
 func _ready():
 	audioStreamPlayer = $AudioStreamPlayer3D
 	bulletRayCast = $RayCast3D
 	weaponOperations = $WeaponOperations
+	weaponHolder = $GunRecoilController/SwayController/ADSController/AnimationLayer/WeaponHolder
 	weaponOperations.play("Reset")
 	weaponState = "Idle"
 	if default_reticle:
 		change_reticle(default_reticle)
-
+		
+	
+	## inventory stuff
+	primary = preload("res://Assets/Weapon/ak_47_rig_v_4.tscn").instantiate()
+	secondary = preload("res://Assets/Weapon/m4_rig.tscn").instantiate()
+	weaponList.append(primary)
+	weaponList.append(secondary)
+	weaponHolder.add_child(primary)
+	weaponHolder.add_child(secondary)
+	secondary.visible = false
+	
 func _process(delta):
 	process_inputs(delta)
 	if ADS:
@@ -50,12 +67,23 @@ func process_inputs(delta):
 		
 	# weapon swapping
 	if Input.is_action_just_pressed("item1"):
+		if curr_weapon == 0:
+			curr_weapon = 1
+		else:
+			curr_weapon = 0
+			
 		weaponOperations.play("WeaponExit")
 		weaponState = "swapping"
 		animationTime = weaponOperations.get_animation("WeaponExit").length
 
 	if weaponState == "swapping":
 		if animationTime <= -.2:
+			if curr_weapon == 0:
+				primary.visible = true
+				secondary.visible = false
+			else:
+				primary.visible = false
+				secondary.visible = true
 			weaponOperations.play_backwards("WeaponExit")
 			weaponState = "idle"
 	
@@ -82,6 +110,9 @@ func useWeapon(delta):
 			make_bullet_hole()
 		audioStreamPlayer.play()
 		shootTimer = 0
+
+func getCurrWeapon():
+	return self.weaponList[self.curr_weapon]
 	
 func make_bullet_hole():
 	var collider = bulletRayCast.get_collider()

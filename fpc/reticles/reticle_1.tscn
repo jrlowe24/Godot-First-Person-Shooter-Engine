@@ -56,14 +56,11 @@ func animate_reticle_lines(delta):
 	if character.is_on_floor():
 		spread_target += speed_spread_multiple * reticle_spread * delta
 	curr_spread = lerp(curr_spread, spread_target, reticle_speed * delta)
+	
 	reticle_lines[0].position = Vector2(0, -curr_spread)
 	reticle_lines[1].position = Vector2(-curr_spread, 0)
 	reticle_lines[2].position = Vector2(curr_spread, 0)
 	reticle_lines[3].position = Vector2(0, curr_spread)
-	#reticle_lines[0].position = lerp(reticle_lines[0].position, Vector2(0, -spread_target), reticle_speed)
-	#reticle_lines[1].position = lerp(reticle_lines[1].position, Vector2(-spread_target, 0), reticle_speed)
-	#reticle_lines[2].position = lerp(reticle_lines[2].position, Vector2(spread_target, 0), reticle_speed)
-	#reticle_lines[3].position = lerp(reticle_lines[3].position, Vector2(0, spread_target), reticle_speed)
 	#reticle_lines[0].position = lerp(reticle_lines[0].position, pos + Vector2(0, -speed * reticle_spread - base_spread), reticle_speed)
 	#reticle_lines[1].position = lerp(reticle_lines[1].position, pos + Vector2(-speed * reticle_spread - base_spread, 0), reticle_speed)
 	#reticle_lines[2].position = lerp(reticle_lines[2].position, pos + Vector2(speed * reticle_spread + base_spread, 0), reticle_speed)

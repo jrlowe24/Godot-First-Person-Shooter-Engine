@@ -23,38 +23,11 @@ glow_enabled = true
 jump_velocity = 3.0
 crouch_mode = 1
 
-[node name="CameraRecoilController" parent="Character/Head" index="0"]
-camRecoilX = -0.01
-camRecoilY = 0.01
-camRecoilZ = 0.015
-camSnappiness = 20.0
-camReturnSpeed = 25.0
-CameraRecoilEnabled = true
-CooldownLastShot = 0.3
-RecoilCooldown = 0.2
-maxVerticalLift = 0.15
-gunRecoilY = -0.01
-gunRecoilZ = 0.06
-gunRotRecoilX = 0.02
-GunRecoilEnabled = true
-
 [node name="WeaponController" parent="Character/Head/CameraRecoilController/Camera" index="0" node_paths=PackedStringArray("Evironment")]
 Evironment = NodePath("../../../../../Environment")
 
-[node name="SwayController" parent="Character/Head/CameraRecoilController/Camera/WeaponController/GunRecoilController" index="0"]
-swayEnabled = true
-rotSwayAmount = 0.05
-bobEnabled = true
-bobLimit = Vector3(0.004, 0.003, 0.005)
-travelLimit = Vector3(0.005, 0.01, 0.01)
-bobAdsMultiplier = 0.3
-bobCurveMultiplier = 2.5
-
-[node name="ADSController" parent="Character/Head/CameraRecoilController/Camera/WeaponController/GunRecoilController/SwayController" index="0"]
-AdsPos = Vector3(-0.133, 0.055, 0.3)
-
 [node name="AnimationLayer" parent="Character/Head/CameraRecoilController/Camera/WeaponController/GunRecoilController/SwayController/ADSController" index="0"]
-transform = Transform3D(0.957718, -0.186785, 0.218832, 0.0809619, 0.904835, 0.417995, -0.276081, -0.382604, 0.8817, 0, 0, 0)
+transform = Transform3D(1, -4.61892e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.32268e-23, 0, 1, 0, 0, 0)
 
 [node name="Environment" type="Node3D" parent="."]
 

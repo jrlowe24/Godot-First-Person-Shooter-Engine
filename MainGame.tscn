@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://nm7buq8ngt1j"]
+[gd_scene load_steps=7 format=3 uid="uid://nm7buq8ngt1j"]
 
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://fpc/character.tscn" id="1_s4aoh"]
 [ext_resource type="Material" path="res://Assets/templategrid/TemplateGrid.tres" id="2_3p114"]
-[ext_resource type="PackedScene" uid="uid://c7o2jytg1jkdq" path="res://Assets/LOD0Barrier.tscn" id="3_xepx5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jah2a"]
 
@@ -55,8 +54,5 @@ use_collision = true
 collision_mask = 3
 size = Vector3(1.99365, 1.63098, 1)
 material = ExtResource("2_3p114")
-
-[node name="Barrier" parent="Environment" instance=ExtResource("3_xepx5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.76221)
 
 [editable path="Character"]

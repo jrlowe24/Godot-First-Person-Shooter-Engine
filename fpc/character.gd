@@ -403,7 +403,6 @@ func update_camera_fov():
 	else:
 		CAMERA.fov = lerp(CAMERA.fov, 75.0, 0.3)
 
-
 func headbob_animation(moving):
 	if moving and is_on_floor():
 		var use_headbob_animation : String
@@ -431,7 +430,6 @@ func headbob_animation(moving):
 			HEADBOB_ANIMATION.play("RESET", 0.25)
 			HEADBOB_ANIMATION.speed_scale = 1
 
-
 func _process(delta):
 	$UserInterface/DebugPanel.add_property("FPS", Performance.get_monitor(Performance.TIME_FPS), 0)
 	var status : String = state
@@ -454,7 +452,6 @@ func _process(delta):
 	#var controller_view_rotation = Input.get_vector(LOOK_LEFT, LOOK_RIGHT, LOOK_UP, LOOK_DOWN)
 	#HEAD.rotation_degrees.y -= controller_view_rotation.x * 1.5
 	#HEAD.rotation_degrees.x -= controller_view_rotation.y * 1.5
-
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

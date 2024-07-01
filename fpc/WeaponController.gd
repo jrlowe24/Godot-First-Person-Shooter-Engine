@@ -141,7 +141,7 @@ func make_bullet_hole():
 	# We will want all assets to have a material type, and pick the decal texture
 	# accordingly
 	
-	var decal = preload("res://Assets/bulletDecal.tscn").instantiate()
+	var decal = preload("res://Assets/Weapons/bulletDecal.tscn").instantiate()
 	Evironment.add_child(decal)
 
 	decal.global_transform.origin = collision_point

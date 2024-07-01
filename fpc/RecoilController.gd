@@ -27,7 +27,6 @@ var gunCurrentRotation : Vector3
 @export var gunReturnSpeed : float
 @export var GunRecoilEnabled : bool
 
-var gunRecoilController : Node3D
 var WeaponController : Node3D
 var camera : Camera3D
 var isFirstShot : bool = true
@@ -39,16 +38,15 @@ var target_fov : float = 0
 var curr_fov : float = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	gunRecoilController = $Camera/WeaponController/GunRecoilController # Replace with function body.
-	WeaponController = $Camera/WeaponController
-	camera = $Camera
+	WeaponController = self.get_parent_node_3d()
+	camera = self.get_parent_node_3d().get_parent()
 	base_fov = camera.fov
 	curr_fov = base_fov
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if CameraRecoilEnabled:
-		self.rotation = lerp(self.rotation, camTargetRotation, camSnappiness * delta)
+		camera.rotation = lerp(camera.rotation, camTargetRotation, camSnappiness * delta)
 		#camTargetRotation = lerp(camTargetRotation, Vector3.ZERO, camReturnSpeed * delta)
 	cooldown -= delta
 	currRecoilCooldown -= delta
@@ -58,13 +56,13 @@ func _process(delta):
 		camTargetRotation = lerp(camTargetRotation, Vector3.ZERO, camReturnSpeed * delta)
 		
 	if GunRecoilEnabled:
-		gunRecoilController.rotation = lerp(gunRecoilController.rotation, gunTargetRotation, gunRecoilSnappiness * delta)
+		self.rotation = lerp(self.rotation, gunTargetRotation, gunRecoilSnappiness * delta)
 		
 		# return back to home
 		gunTargetPosition = lerp(gunTargetPosition, Vector3.ZERO, gunReturnSpeed * delta)
 		gunTargetRotation = lerp(gunTargetRotation, Vector3.ZERO, gunReturnSpeed * delta)
-		gunRecoilController.position = gunTargetPosition
-		gunRecoilController.rotation = gunTargetRotation
+		self.position = gunTargetPosition
+		self.rotation = gunTargetRotation
 	
 	target_fov = lerp(target_fov, base_fov, delta*10.0)
 	camera.fov = target_fov
@@ -83,8 +81,6 @@ func shoot():
 		camTargetRotation.x += randf_range(-camRecoilX, camRecoilX)
 	
 	if WeaponController.ADS:
-		print("ads")
-		#gunTargetRotation += Vector3(gunRotRecoilX * .001, 0,0)
 		gunTargetPosition += Vector3(randf_range(-gunRecoilX, gunRecoilX), gunRecoilY / 3,gunRecoilZ)
 	else:
 		gunTargetRotation += Vector3(gunRotRecoilX, 0,0)

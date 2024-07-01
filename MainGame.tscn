@@ -23,11 +23,9 @@ glow_enabled = true
 jump_velocity = 3.0
 crouch_mode = 1
 
-[node name="WeaponController" parent="Character/Head/CameraRecoilController/Camera" index="0" node_paths=PackedStringArray("Evironment")]
-Evironment = NodePath("../../../../../Environment")
-
-[node name="AnimationLayer" parent="Character/Head/CameraRecoilController/Camera/WeaponController/GunRecoilController/SwayController/ADSController" index="0"]
-transform = Transform3D(1, -4.61892e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.32268e-23, 0, 1, 0, 0, 0)
+[node name="WeaponController" parent="Character/Head/Camera" index="0" node_paths=PackedStringArray("recoilController", "Evironment")]
+recoilController = NodePath("GunRecoilController")
+Evironment = NodePath("../../../../Environment")
 
 [node name="Environment" type="Node3D" parent="."]
 

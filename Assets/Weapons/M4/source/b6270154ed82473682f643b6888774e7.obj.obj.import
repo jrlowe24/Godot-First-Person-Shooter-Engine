@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cvfj5xej6q7b4"
+path="res://.godot/imported/b6270154ed82473682f643b6888774e7.obj.obj-8363520900ad7f18dc8cfd8f75bf19c5.mesh"
+
+[deps]
+
+files=["res://.godot/imported/b6270154ed82473682f643b6888774e7.obj.obj-8363520900ad7f18dc8cfd8f75bf19c5.mesh"]
+
+source_file="res://Assets/Weapons/M4/source/b6270154ed82473682f643b6888774e7.obj.obj"
+dest_files=["res://.godot/imported/b6270154ed82473682f643b6888774e7.obj.obj-8363520900ad7f18dc8cfd8f75bf19c5.mesh", "res://.godot/imported/b6270154ed82473682f643b6888774e7.obj.obj-8363520900ad7f18dc8cfd8f75bf19c5.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

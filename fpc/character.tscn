@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=28 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" path="res://fpc/character.gd" id="1_hivu4"]
 [ext_resource type="Script" path="res://fpc/SwayController.gd" id="2_5lhc7"]
@@ -6,8 +6,7 @@
 [ext_resource type="Script" path="res://fpc/debug.gd" id="2_jq14x"]
 [ext_resource type="Script" path="res://fpc/EditorModule.gd" id="3_gssr6"]
 [ext_resource type="Script" path="res://fpc/RecoilController.gd" id="3_ulpgy"]
-[ext_resource type="Script" path="res://fpc/ADSController.gd" id="3_yqso1"]
-[ext_resource type="AudioStream" uid="uid://cy4rqphek27cv" path="res://Assets/Weapon/Ak47Shot.wav" id="7_em620"]
+[ext_resource type="AudioStream" uid="uid://cy4rqphek27cv" path="res://Assets/Weapons/Ak47/Ak47Shot.wav" id="7_em620"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.222244, 0.715515, 1, 1)
@@ -158,14 +157,14 @@ resource_name = "Reset"
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("GunRecoilController/SwayController/ADSController/AnimationLayer")
+tracks/0/path = NodePath("GunRecoilController/SwayController/AnimationLayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("GunRecoilController/SwayController/ADSController/AnimationLayer")
+tracks/1/path = NodePath("GunRecoilController/SwayController/AnimationLayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, -6.61341e-24, 2.30946e-25, 1)
@@ -176,14 +175,14 @@ length = 0.2
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("GunRecoilController/SwayController/ADSController/AnimationLayer")
+tracks/0/path = NodePath("GunRecoilController/SwayController/AnimationLayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.2, 1, 0, 0, 0)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("GunRecoilController/SwayController/ADSController/AnimationLayer")
+tracks/1/path = NodePath("GunRecoilController/SwayController/AnimationLayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, -6.61341e-24, 2.30946e-25, 1, 0.2, 1, -0.394524, 0.139059, 0.0424664, 0.907309)
@@ -201,7 +200,7 @@ loop_mode = 1
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:position:x")
+tracks/0/path = NodePath("Camera:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -212,7 +211,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CameraRecoilController/Camera:position:y")
+tracks/1/path = NodePath("Camera:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -223,7 +222,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CameraRecoilController/Camera:position:z")
+tracks/2/path = NodePath("Camera:position:z")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -239,7 +238,7 @@ loop_mode = 1
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:position:x")
+tracks/0/path = NodePath("Camera:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -250,7 +249,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CameraRecoilController/Camera:position:y")
+tracks/1/path = NodePath("Camera:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -261,7 +260,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CameraRecoilController/Camera:position:z")
+tracks/2/path = NodePath("Camera:position:z")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -277,7 +276,7 @@ loop_mode = 1
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:position:x")
+tracks/0/path = NodePath("Camera:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -288,7 +287,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CameraRecoilController/Camera:position:y")
+tracks/1/path = NodePath("Camera:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -299,7 +298,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CameraRecoilController/Camera:position:z")
+tracks/2/path = NodePath("Camera:position:z")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -320,7 +319,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:rotation")
+tracks/0/path = NodePath("Camera:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -332,7 +331,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CameraRecoilController/Camera:position")
+tracks/1/path = NodePath("Camera:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -348,7 +347,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:rotation")
+tracks/0/path = NodePath("Camera:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -364,7 +363,7 @@ length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:rotation")
+tracks/0/path = NodePath("Camera:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -376,7 +375,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CameraRecoilController/Camera:position")
+tracks/1/path = NodePath("Camera:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -392,7 +391,7 @@ length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CameraRecoilController/Camera:rotation")
+tracks/0/path = NodePath("Camera:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -404,7 +403,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CameraRecoilController/Camera:position")
+tracks/1/path = NodePath("Camera:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -437,7 +436,7 @@ joystick_sensitivity_y = 175.0
 joystick_aim_sensitivity_x = 100.0
 joystick_aim_sensitivity_y = 75.0
 HEAD = NodePath("Head")
-CAMERA = NodePath("Head/CameraRecoilController/Camera")
+CAMERA = NodePath("Head/Camera")
 HEADBOB_ANIMATION = NodePath("Head/HeadbobAnimation")
 JUMP_ANIMATION = NodePath("Head/JumpAnimation")
 CROUCH_ANIMATION = NodePath("CrouchAnimation")
@@ -462,8 +461,19 @@ libraries = {
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="CameraRecoilController" type="Node3D" parent="Head"]
-transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-16, -3.48787e-16, 3.48787e-16, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+[node name="Camera" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 0.999391, -0.0348995, 0, 0.0348995, 0.999391, 0, 0, 0)
+near = 0.001
+
+[node name="WeaponController" type="Node3D" parent="Head/Camera" node_paths=PackedStringArray("userInterface", "character")]
+transform = Transform3D(1, -1.21652e-31, 0, -1.21652e-31, 1, 8.75809e-10, 1.56396e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+script = ExtResource("2_7x352")
+default_reticle = "res://fpc/reticles/reticle_1.tscn"
+userInterface = NodePath("../../../UserInterface")
+character = NodePath("../../..")
+
+[node name="GunRecoilController" type="Node3D" parent="Head/Camera/WeaponController"]
+transform = Transform3D(1, 1.21652e-31, -1.55948e-40, 1.21652e-31, 1, 8.75809e-10, 5.20124e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 script = ExtResource("3_ulpgy")
 camRecoilX = -0.01
 camRecoilY = 0.01
@@ -482,25 +492,10 @@ gunRecoilSnappiness = 10.0
 gunReturnSpeed = 10.0
 GunRecoilEnabled = true
 
-[node name="Camera" type="Camera3D" parent="Head/CameraRecoilController"]
-transform = Transform3D(1, 0, 0, 0, 0.999391, -0.0348995, 0, 0.0348995, 0.999391, 0, 0, 0)
-near = 0.001
-
-[node name="WeaponController" type="Node3D" parent="Head/CameraRecoilController/Camera" node_paths=PackedStringArray("userInterface", "character", "recoilController")]
-transform = Transform3D(1, -1.21652e-31, 0, -1.21652e-31, 1, 8.75809e-10, 1.56396e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
-script = ExtResource("2_7x352")
-default_reticle = "res://fpc/reticles/reticle_1.tscn"
-userInterface = NodePath("../../../../UserInterface")
-character = NodePath("../../../..")
-recoilController = NodePath("../..")
-
-[node name="GunRecoilController" type="Node3D" parent="Head/CameraRecoilController/Camera/WeaponController"]
-transform = Transform3D(1, 1.21652e-31, -1.55948e-40, 1.21652e-31, 1, 8.75809e-10, 5.20124e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
-
-[node name="SwayController" type="Node3D" parent="Head/CameraRecoilController/Camera/WeaponController/GunRecoilController" node_paths=PackedStringArray("character")]
+[node name="SwayController" type="Node3D" parent="Head/Camera/WeaponController/GunRecoilController" node_paths=PackedStringArray("character")]
 transform = Transform3D(1, -1.21652e-31, -7.34461e-40, -1.21652e-31, 1, 8.75809e-10, -5.77841e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 script = ExtResource("2_5lhc7")
-character = NodePath("../../../../../..")
+character = NodePath("../../../../..")
 swayEnabled = true
 swayAmount = 0.003
 AdsSwayMultiplier = 0.35
@@ -513,26 +508,23 @@ multiplier = Vector3(0.005, 0.005, 0.005)
 bobAdsMultiplier = 0.3
 bobCurveMultiplier = 2.5
 
-[node name="ADSController" type="Node3D" parent="Head/CameraRecoilController/Camera/WeaponController/GunRecoilController/SwayController" node_paths=PackedStringArray("WeaponController")]
-transform = Transform3D(1, -1.21652e-31, 0, -1.21652e-31, 1, 0, 0, 0, 1, 0, 0, 0)
-script = ExtResource("3_yqso1")
-WeaponController = NodePath("../../..")
-
-[node name="AnimationLayer" type="Node3D" parent="Head/CameraRecoilController/Camera/WeaponController/GunRecoilController/SwayController/ADSController"]
+[node name="AnimationLayer" type="Node3D" parent="Head/Camera/WeaponController/GunRecoilController/SwayController"]
+editor_description = "This node is used for applying animations onto in order to move the weapon, we can probably get rid of this node and use the weapon controller
+"
 transform = Transform3D(0.957718, -0.186785, 0.218832, -0.0326641, 0.685096, 0.727722, -0.285847, -0.704101, 0.650028, 0, 0, 0)
 
-[node name="WeaponHolder" type="Node3D" parent="Head/CameraRecoilController/Camera/WeaponController/GunRecoilController/SwayController/ADSController/AnimationLayer"]
+[node name="WeaponHolder" type="Node3D" parent="Head/Camera/WeaponController/GunRecoilController/SwayController/AnimationLayer"]
 transform = Transform3D(1, -1.33519e-08, 1.28628e-08, -8.65896e-09, 1, -5.4536e-09, 6.19989e-10, -3.01693e-08, 1, 0, 0, 0)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Head/CameraRecoilController/Camera/WeaponController"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Head/Camera/WeaponController"]
 stream = ExtResource("7_em620")
 
-[node name="RayCast3D" type="RayCast3D" parent="Head/CameraRecoilController/Camera/WeaponController"]
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera/WeaponController"]
 transform = Transform3D(1, 0, -2.18367e-23, 6.10941e-25, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.25514e-17, -0.0313234, 2.74334e-11)
 target_position = Vector3(2.08165e-12, -1000, 2.08165e-12)
 collision_mask = 3
 
-[node name="WeaponOperations" type="AnimationPlayer" parent="Head/CameraRecoilController/Camera/WeaponController"]
+[node name="WeaponOperations" type="AnimationPlayer" parent="Head/Camera/WeaponController"]
 libraries = {
 "": SubResource("AnimationLibrary_vbxay")
 }

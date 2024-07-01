@@ -80,7 +80,7 @@ func _ready():
 	rotation.y = 0
 	
 	HEAD = $Head
-	CAMERA = $Head/CameraRecoilController/Camera
+	CAMERA = $Head/Camera
 	HEADBOB_ANIMATION = $Head/HeadbobAnimation
 	JUMP_ANIMATION = $Head/JumpAnimation
 	CROUCH_ANIMATION = $CrouchAnimation

@@ -4,34 +4,42 @@ extends Node3D
 @export var userInterface : Control
 @export var character : CharacterBody3D
 @export var recoilController : Node3D
+# used for adding bullet hole decals to scene
 @export var Evironment : Node3D
 
-var weaponState : String
-#temp gun variables
-@export var fireRate : float = 10
-
 var bulletRayCast : RayCast3D
-# The reticle should always have a Control node as the root
-var RETICLE : Control
+
 var audioStreamPlayer : AudioStreamPlayer3D
+# weapon animations
 var weaponOperations : AnimationPlayer
+
 # time since last shot
 var shootTimer : float = 0
-var ADS : bool = false
+# counter to keep track of animation time
 var animationTime : float
+# whether we are aiming down sites
+var ADS : bool = false
+# state of weapon (swapping, idle)
+var weaponState : String
+
+# The reticle should always have a Control node as the root
+var RETICLE : Control
 
 ## Item Slots
+# node that holds the weapon scene
 var weaponHolder : Node3D
-var primary : Node3D
-var secondary : Node3D
+# list of weapons
 var weaponList : Array
+# index of current weapon
 var curr_weapon : int = 0
+
 
 func _ready():
 	audioStreamPlayer = $AudioStreamPlayer3D
 	bulletRayCast = $RayCast3D
 	weaponOperations = $WeaponOperations
-	weaponHolder = $GunRecoilController/SwayController/ADSController/AnimationLayer/WeaponHolder
+	weaponHolder = $GunRecoilController/SwayController/AnimationLayer/WeaponHolder
+	recoilController = $GunRecoilController
 	weaponOperations.play("Reset")
 	weaponState = "Idle"
 	if default_reticle:
@@ -39,8 +47,8 @@ func _ready():
 		
 	
 	## inventory stuff
-	primary = preload("res://Assets/Weapon/ak_47_rig_v_4.tscn").instantiate()
-	secondary = preload("res://Assets/Weapon/m4_rig.tscn").instantiate()
+	var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
+	var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
 	weaponList.append(primary)
 	weaponList.append(secondary)
 	weaponHolder.add_child(primary)
@@ -51,52 +59,60 @@ func _process(delta):
 	process_inputs(delta)
 	if ADS:
 		RETICLE.visible = false
-		$GunRecoilController/SwayController/ADSController.ADS = true
+		weaponHolder.position = lerp(weaponHolder.position, getCurrWeaponProperty("ADS_Position"), delta * getCurrWeaponProperty("ADS_Speed"))
 	else:
 		RETICLE.visible = true
-		$GunRecoilController/SwayController/ADSController.ADS = false
+		weaponHolder.position = lerp(weaponHolder.position, Vector3.ZERO, delta * getCurrWeaponProperty("ADS_Speed"))
+	
+	if weaponState == "swapping":
+		# wait until animation putting away current weapon is done
+		if animationTime <= -.2:
+			if curr_weapon == 0:
+				weaponList[0].visible = true
+				weaponList[1].visible = false
+			else:
+				weaponList[0].visible = false
+				weaponList[1].visible = true
+			weaponOperations.play_backwards("WeaponExit")
+			weaponState = "idle"
+	animationTime -= delta
+	shootTimer += delta
 	
 func process_inputs(delta):
-	shootTimer += delta
+
 	if Input.is_action_pressed("shoot"):
 		useWeapon(delta)
 	if Input.is_action_pressed("aim"):
 		ADS = true
 	else:
 		ADS = false
-		
+	
 	# weapon swapping
 	if Input.is_action_just_pressed("item1"):
-		if curr_weapon == 0:
-			curr_weapon = 1
-		else:
-			curr_weapon = 0
-			
-		weaponOperations.play("WeaponExit")
-		weaponState = "swapping"
-		animationTime = weaponOperations.get_animation("WeaponExit").length
+		swapWeapons()
 
-	if weaponState == "swapping":
-		if animationTime <= -.2:
-			if curr_weapon == 0:
-				primary.visible = true
-				secondary.visible = false
-			else:
-				primary.visible = false
-				secondary.visible = true
-			weaponOperations.play_backwards("WeaponExit")
-			weaponState = "idle"
-	
-	animationTime -= delta
+func swapWeapons():
+	if curr_weapon == 0:
+		curr_weapon = 1
+	else:
+		curr_weapon = 0
+		
+	weaponOperations.play("WeaponExit")
+	weaponState = "swapping"
+	animationTime = weaponOperations.get_animation("WeaponExit").length
 		
 func useWeapon(delta):
-	if shootTimer > (1 / fireRate) and weaponState != "swapping":
+	if shootTimer > (1 / getCurrWeaponProperty("Fire_Rate")) and weaponState != "swapping":
+		shootTimer = 0
+		audioStreamPlayer.play()
 		recoilController.shoot()
-		Input.start_joy_vibration(0, .5, .5, .1)
-		#Input.v
-		var space_state = get_world_3d().direct_space_state
-		var from = bulletRayCast.global_transform.origin
-		var to = from + bulletRayCast.global_transform.basis.z.normalized() * 50
+		# vibration doesn't work in this godot version
+		#Input.start_joy_vibration(0, .5, .5, .1)
+		
+		## Ray Cast stuff
+		#var space_state = get_world_3d().direct_space_state
+		#var from = bulletRayCast.global_transform.origin
+		#var to = from + bulletRayCast.global_transform.basis.z.normalized() * 50
 		#var params = PhysicsRayQueryParameters3D.create(from, to)
 		#var result = space_state.intersect_ray(params)  # Adjust the collision mask (last argument) as per your needs
 		
@@ -106,17 +122,19 @@ func useWeapon(delta):
 			#var collision_point = result.position
 			#var collision_normal = result.normal.normalized()
 		
+		# may want to use space state raycast to get mesh and not collider
 		if bulletRayCast.is_colliding():
 			make_bullet_hole()
-		audioStreamPlayer.play()
-		shootTimer = 0
 
+# returns the currently equipped weapon node
 func getCurrWeapon():
 	return self.weaponList[self.curr_weapon]
-	
+
+func getCurrWeaponProperty(property):
+	return self.weaponList[self.curr_weapon].gun_stats.get(property)
+
 func make_bullet_hole():
 	var collider = bulletRayCast.get_collider()
-	print(collider)
 	var collision_point = bulletRayCast.get_collision_point()
 	var collision_normal = bulletRayCast.get_collision_normal()
 	# Not sure how this will work with simple colliders on complex meshes
@@ -127,14 +145,11 @@ func make_bullet_hole():
 	Evironment.add_child(decal)
 
 	decal.global_transform.origin = collision_point
-	align_decal_with_normal(decal, collision_normal)
-
-# Function to align the decal with the surface normal
-func align_decal_with_normal(decal: Node3D, normal: Vector3) -> void:
-	#decal.look_at(decal.global_transform.origin + normal, Vector3.UP)
-	decal.global_transform.basis.y = normal
-	var potential_z = -decal.global_transform.basis.x.cross(normal)
-	var potential_x = -decal.global_transform.basis.z.cross(normal)
+	
+	# align the decal to the normal
+	decal.global_transform.basis.y = collision_normal
+	var potential_z = -decal.global_transform.basis.x.cross(collision_normal)
+	var potential_x = -decal.global_transform.basis.z.cross(collision_normal)
 	if potential_z.length() > potential_x.length():
 		decal.global_transform.basis.x = potential_z
 	else:

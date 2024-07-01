@@ -144,7 +144,22 @@ func _physics_process(delta):
 	
 	var input_dir = Vector2.ZERO
 	if !immobile: # Immobility works by interrupting user input, so other forces can still be applied to the player
-		input_dir = Input.get_vector(LEFT, RIGHT, FORWARD, BACKWARD)
+		## Keyboard
+		#input_dir = Input.get_vector(LEFT, RIGHT, FORWARD, BACKWARD)
+		## Gamepad
+		var axis_x = Input.get_joy_axis(0, JOY_AXIS_LEFT_X)
+		var axis_y = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
+		var input_x = 0
+		var input_y = 0
+		if abs(axis_x) > self.joystick_deadzone:
+			input_x = axis_x
+		else:
+			input_x = 0
+		if abs(axis_y) > self.joystick_deadzone:
+			input_y = axis_y
+		else:
+			input_y = 0
+		input_dir = Vector2(input_x, input_y)
 	handle_movement(delta, input_dir)
 	
 	# The player is not able to stand up if the ceiling is too low

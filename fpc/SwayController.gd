@@ -3,13 +3,16 @@ extends Node3D
 @export var character : CharacterBody3D
 
 @export_group("Sway")
+@export var swayEnabled : bool
 @export var swayAmount : float = 0.01
 @export var maxSwayAmount : float = 0.02
 @export var AdsSwayMultiplier : float = 0.5
 @export var swaySmooth : float = 1
+@export var rotSwayAmount : float
 var swayPosition : Vector3
 
 @export_group("Bob")
+@export var bobEnabled : bool
 @export var bobLimit = Vector3(.01, .005, .01)
 @export var travelLimit = Vector3(.02, .005, .025)
 @export var multiplier = Vector3(.01, .01, .01)
@@ -34,10 +37,11 @@ var speedCurve : float = 0.01
 func _process(delta):
 	process_input(delta)
 	speedCurve += delta * get_speed() * bobCurveMultiplier + .01
-	
-	process_sway(delta)
-	process_bob(delta)
-	process_bobRotation(delta)
+	if swayEnabled:
+		process_sway(delta)
+	if bobEnabled:
+		process_bob(delta)
+		process_bobRotation(delta)
 	
 	self.position = lerp(self.position, swayPosition + bobPosition, delta * swaySmooth)
 	self.quaternion = self.quaternion.slerp(Quaternion.from_euler(bobEulerRotation), delta * smoothRot)
@@ -51,7 +55,7 @@ func process_bobRotation(delta):
 	bobEulerRotation.y = bobMultiplier.y * cos(speedCurve) if walkInput != Vector2.ZERO else 0
 	bobEulerRotation.z = bobMultiplier.z * cos(speedCurve) * walkInput.x if walkInput != Vector2.ZERO else 0
 	# not really part of bob but included anyways
-	bobEulerRotation.z = walkInput.x * swayAmount / 4
+	bobEulerRotation.z = -walkInput.x * rotSwayAmount
 
 func process_bob(delta):
 	var vel = character.get_real_velocity()
@@ -84,7 +88,11 @@ func process_input(delta):
 		bobMultiplier = multiplier
 		travel = travelLimit
 		bobLim = bobLimit
+		
+	# make bobLim a gradient based on speed
+	bobLim = bobLim *  max(get_speed(), .4)
 	
+
 	## Gamepad support
 	var x_axis = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 	var y_axis = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
@@ -113,12 +121,12 @@ func process_input(delta):
 	## End Gamepad Support
 	
 	## Keyboard Support
-	if Input.is_action_pressed("ui_left"):
-		walkInput.x = -1
-	elif Input.is_action_pressed("ui_right"):
-		walkInput.x = 1
-	else:
-		walkInput.x = 0
+	#if Input.is_action_pressed("ui_left"):
+	#	walkInput.x = -1
+	#elif Input.is_action_pressed("ui_right"):
+	#	walkInput.x = 1
+	#else:
+	#	walkInput.x = 0
 	## End Keyboard Support
 		
 	

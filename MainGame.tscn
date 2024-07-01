@@ -27,6 +27,12 @@ crouch_mode = 1
 recoilController = NodePath("GunRecoilController")
 Evironment = NodePath("../../../../Environment")
 
+[node name="AnimationLayer" parent="Character/Head/Camera/WeaponController/GunRecoilController/SwayController" index="0"]
+transform = Transform3D(1, -4.61893e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.32268e-23, 0, 1, 0, 0, 0)
+
+[node name="RayCast3D" parent="Character/Head/Camera/WeaponController" index="2"]
+transform = Transform3D(1, -8.91751e-40, -2.18367e-23, 6.10941e-25, -4.3839e-08, -1, -5.90601e-33, 1, -4.55407e-08, -2.25514e-17, -0.0613121, 0.00104723)
+
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]

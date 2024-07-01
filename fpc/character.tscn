@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=30 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" path="res://fpc/character.gd" id="1_hivu4"]
 [ext_resource type="Script" path="res://fpc/SwayController.gd" id="2_5lhc7"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://fpc/EditorModule.gd" id="3_gssr6"]
 [ext_resource type="Script" path="res://fpc/RecoilController.gd" id="3_ulpgy"]
 [ext_resource type="AudioStream" uid="uid://cy4rqphek27cv" path="res://Assets/Weapons/Ak47/Ak47Shot.wav" id="7_em620"]
+[ext_resource type="Script" path="res://fpc/WeaponSubViewport.gd" id="8_uiw4d"]
+[ext_resource type="Script" path="res://fpc/SubViewportCamera.gd" id="9_1l6xy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.222244, 0.715515, 1, 1)
@@ -463,6 +465,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 0.999391, -0.0348995, 0, 0.0348995, 0.999391, 0, 0, 0)
+cull_mask = 1048573
 near = 0.001
 
 [node name="WeaponController" type="Node3D" parent="Head/Camera" node_paths=PackedStringArray("userInterface", "character")]
@@ -572,3 +575,23 @@ target_position = Vector3(0, 0.5, 0)
 
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_gssr6")
+
+[node name="WeaponViewport" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="WeaponViewport"]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("8_uiw4d")
+
+[node name="Camera3D" type="Camera3D" parent="WeaponViewport/SubViewport" node_paths=PackedStringArray("main_camera")]
+cull_mask = 1048574
+fov = 47.5
+near = 0.001
+script = ExtResource("9_1l6xy")
+main_camera = NodePath("../../../Head/Camera")

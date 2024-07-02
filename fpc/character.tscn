@@ -446,6 +446,8 @@ CROUCH_ANIMATION = NodePath("CrouchAnimation")
 COLLISION_MESH = NodePath("Collision")
 CROUCH = "crouch"
 SPRINT = "sprint"
+crouch_mode = 1
+sprint_mode = 1
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -482,12 +484,12 @@ script = ExtResource("3_ulpgy")
 camRecoilX = -0.01
 camRecoilY = 0.01
 camRecoilZ = 0.015
-camSnappiness = 20.0
+camSnappiness = 25.0
 camReturnSpeed = 25.0
 CameraRecoilEnabled = true
 CooldownLastShot = 0.3
 RecoilCooldown = 0.2
-maxVerticalLift = 0.15
+maxVerticalLift = 0.5
 gunRecoilX = 0.005
 gunRecoilY = -0.01
 gunRecoilZ = 0.06
@@ -512,7 +514,7 @@ multiplier = Vector3(0.005, 0.005, 0.005)
 bobAdsMultiplier = 0.3
 bobCurveMultiplier = 2.5
 runPosition = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
-sprintRotation = Vector3(-0.17, 0.14, 0.1)
+sprintRotation = Vector3(-0.17, 0.22, 0.1)
 maxBobSpeed = 4.5
 
 [node name="AnimationLayer" type="Node3D" parent="Head/Camera/WeaponController/GunRecoilController/SwayController"]
@@ -543,6 +545,7 @@ libraries = {
 blend_times = [&"RESET", &"RESET", 0.5, &"RESET", &"walk", 0.5, &"walk", &"RESET", 0.5]
 
 [node name="JumpAnimation" type="AnimationPlayer" parent="Head"]
+active = false
 libraries = {
 "": SubResource("AnimationLibrary_qeg5r")
 }

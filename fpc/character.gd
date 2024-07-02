@@ -5,6 +5,7 @@ extends CharacterBody3D
 @export var base_speed : float = 3.0
 @export var sprint_speed : float = 6.0
 @export var crouch_speed : float = 1.0
+@export var slide_speed : float = 5.0
 @export var ladder_speed : float = 2.0
 @export var acceleration : float = 10.0
 @export var jump_velocity : float = 4.5
@@ -282,7 +283,7 @@ func handle_state(moving):
 				enter_normal_state()
 		# toggle sprint
 		elif sprint_mode == 1:
-			if moving:
+			if moving and Input.is_action_pressed(FORWARD)  and !Input.is_action_pressed("aim"):
 				# If the player is holding sprint before moving, handle that cenerio
 				if Input.is_action_pressed(SPRINT) and state == "normal":
 					enter_sprint_state()

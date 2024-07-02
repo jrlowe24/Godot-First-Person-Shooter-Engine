@@ -545,7 +545,6 @@ libraries = {
 blend_times = [&"RESET", &"RESET", 0.5, &"RESET", &"walk", 0.5, &"walk", &"RESET", 0.5]
 
 [node name="JumpAnimation" type="AnimationPlayer" parent="Head"]
-active = false
 libraries = {
 "": SubResource("AnimationLibrary_qeg5r")
 }

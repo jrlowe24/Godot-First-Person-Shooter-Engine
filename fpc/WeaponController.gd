@@ -63,6 +63,8 @@ func _ready():
 	secondary.visible = false
 	sidearm.visible = false
 	
+	emit_signal("swap_weapons")
+	
 func _process(delta):
 	process_inputs(delta)
 	

@@ -95,7 +95,6 @@ func _process(delta):
 	
 	## Gun Recoil
 	if GunRecoilEnabled:
-		print(gunRecoilZ)
 		self.rotation = lerp(self.rotation, gunTargetRotation, gunRecoilSnappiness * delta)
 		# return back to home
 		gunTargetPosition = lerp(gunTargetPosition, Vector3.ZERO, gunReturnSpeed * delta)

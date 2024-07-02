@@ -9,9 +9,10 @@ var state : String
 
 
 func _ready():
-	rigidbody = $RigidBody3D
-	arms = $Arms
-	gunMesh = $GunMesh
+	pass
+	#rigidbody = $RigidBody3D
+	#arms = $Arms
+	#gunMesh = $GunMesh
 	#rigidbody.set_physics_process(true)
 
 func _process(delta):

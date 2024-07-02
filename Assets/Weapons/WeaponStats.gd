@@ -10,3 +10,5 @@ class_name WeaponStats extends Resource
 @export var Hipfire_Horizontal_Bullet_Spread : float
 @export var ADS_Vertical_Bullet_Spread : float
 @export var ADS_Horizontal_Bullet_Spread : float
+
+@export var WeaponMeshPath : String

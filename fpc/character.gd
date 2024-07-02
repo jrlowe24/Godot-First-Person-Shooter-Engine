@@ -284,12 +284,15 @@ func handle_state(moving):
 		# toggle sprint
 		elif sprint_mode == 1:
 			if moving and Input.is_action_pressed(FORWARD)  and !Input.is_action_pressed("aim"):
-				# If the player is holding sprint before moving, handle that cenerio
-				if Input.is_action_pressed(SPRINT) and state == "normal":
+				# If the player is holding sprint before moving, handle that scenerio
+				if Input.is_action_pressed(SPRINT) and state == "normal" and self.is_on_floor():
 					enter_sprint_state()
 				if Input.is_action_just_pressed(SPRINT):
 					match state:
 						"normal":
+							if self.is_on_floor():
+								enter_sprint_state()
+						"crouching":
 							enter_sprint_state()
 						"sprinting":
 							enter_normal_state()

@@ -75,11 +75,31 @@ func _process(delta):
 	if weaponState == "swapping":
 		# wait until animation putting away current weapon is done
 		if animationTime <= -.2:
-			weaponList[curr_weapon].visible = false
+			if curr_weapon <= len(weaponList) - 1:
+				weaponList[curr_weapon].visible = false
 			curr_weapon = (curr_weapon + 1) % len(weaponList)
 			weaponList[curr_weapon].visible = true
 			weaponOperations.play_backwards("WeaponExit")
 			weaponState = "idle"
+	if weaponState == "dropping":
+		if animationTime <= 0:
+			var currentWeapon = getCurrWeapon()
+			# add weapon object into the world
+			var weaponObjectDrop = preload("res://Assets/Weapons/WeaponObject.tscn").instantiate()
+			weaponObjectDrop.setWeaponMesh(getCurrWeaponProperty("WeaponMeshPath"))
+			#weaponObjectDrop.global_position = self.global_position
+			var forward_direction = -character.HEAD.global_transform.basis.z
+			weaponObjectDrop.global_position = self.global_position + forward_direction * 1
+			#weaponObjectDrop.pos
+			Evironment.add_child(weaponObjectDrop)
+			
+			currentWeapon.queue_free()
+			weaponList.remove_at(curr_weapon)
+			if len(weaponList) > 0:
+				weaponState = "swapping"
+			else:
+				weaponState = "idle"
+			
 	animationTime -= delta
 	shootTimer += delta
 	
@@ -90,29 +110,25 @@ func process_inputs(delta):
 		ADS = false
 	
 	# weapon swapping
-	if Input.is_action_just_pressed("item1"):
+	if Input.is_action_just_pressed("item1") and len(weaponList) > 1:
 		swapWeapons()
 	
-	if Input.is_action_just_pressed("dropItem"):
-		pass
-		#dropCurrWeapon()
+	if Input.is_action_just_pressed("dropItem") and len(weaponList) > 0:
+		dropCurrWeapon()
 		
-	if Input.is_action_pressed("shoot"):
+	if Input.is_action_pressed("shoot") and len(weaponList) > 0:
 		useWeapon(delta)
 
 func swapWeapons():
-	if len(weaponList) > 1:
-		weaponOperations.play("WeaponExit")
-		weaponState = "swapping"
-		animationTime = weaponOperations.get_animation("WeaponExit").length
+	weaponOperations.play("WeaponExit")
+	weaponState = "swapping"
+	animationTime = weaponOperations.get_animation("WeaponExit").length
 
 func dropCurrWeapon():
-	getCurrWeapon().drop()
-	var global_trans = getCurrWeapon().global_transform
-	weaponHolder.remove_child(getCurrWeapon())
-	Evironment.add_child(getCurrWeapon())
-	getCurrWeapon().global_transform = global_trans
-	#weaponList.erase(getCurrWeapon())
+	#getCurrWeapon().drop()
+	weaponState = "dropping"
+	weaponOperations.play("WeaponExit")
+	animationTime = weaponOperations.get_animation("WeaponExit").length
 	#swapWeapons()
 
 func useWeapon(delta):
@@ -143,15 +159,14 @@ func useWeapon(delta):
 		bulletRayCast.target_position.x = 0
 		bulletRayCast.target_position.z = 0
 		if Input.is_action_pressed("aim"):
-			print('using ads spread')
 			horizontal_spread = getCurrWeaponProperty("ADS_Horizontal_Bullet_Spread")
 			vertical_spread = getCurrWeaponProperty("ADS_Vertical_Bullet_Spread")
 		else:
-			print('using hipfire spread')
 			horizontal_spread = getCurrWeaponProperty("Hipfire_Horizontal_Bullet_Spread")
 			vertical_spread = getCurrWeaponProperty("Hipfire_Vertical_Bullet_Spread")
 		bulletRayCast.target_position.x = randf_range(-horizontal_spread, horizontal_spread)
 		bulletRayCast.target_position.z = randf_range(-vertical_spread, vertical_spread)
+		bulletRayCast.force_raycast_update()
 		if bulletRayCast.is_colliding():
 			make_bullet_hole()
 

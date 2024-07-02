@@ -35,6 +35,8 @@ var maxWeapons : int = 2
 # index of current weapon
 var curr_weapon : int = 0
 
+signal swap_weapons
+
 
 func _ready():
 	audioStreamPlayer = $AudioStreamPlayer3D
@@ -51,11 +53,15 @@ func _ready():
 	## inventory stuff
 	var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
 	var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
+	var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
 	weaponList.append(primary)
 	weaponList.append(secondary)
+	weaponList.append(sidearm)
 	weaponHolder.add_child(primary)
 	weaponHolder.add_child(secondary)
+	weaponHolder.add_child(sidearm)
 	secondary.visible = false
+	sidearm.visible = false
 	
 func _process(delta):
 	process_inputs(delta)
@@ -80,6 +86,7 @@ func _process(delta):
 			curr_weapon = (curr_weapon + 1) % len(weaponList)
 			weaponList[curr_weapon].visible = true
 			weaponOperations.play_backwards("WeaponExit")
+			emit_signal("swap_weapons")
 			weaponState = "idle"
 	if weaponState == "dropping":
 		if animationTime <= 0:
@@ -115,9 +122,16 @@ func process_inputs(delta):
 	
 	if Input.is_action_just_pressed("dropItem") and len(weaponList) > 0:
 		dropCurrWeapon()
-		
-	if Input.is_action_pressed("shoot") and len(weaponList) > 0:
-		useWeapon(delta)
+	
+	var fire_mode = getCurrWeaponProperty("Default_Fire_Mode")
+	# full auto
+	if fire_mode == 0:
+		if Input.is_action_pressed("shoot") and len(weaponList) > 0:
+			useWeapon(delta)
+	# semi auto
+	if fire_mode == 1:
+		if Input.is_action_just_pressed("shoot") and len(weaponList) > 0:
+			useWeapon(delta)
 
 func swapWeapons():
 	weaponOperations.play("WeaponExit")

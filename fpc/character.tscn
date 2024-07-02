@@ -491,12 +491,6 @@ CameraRecoilEnabled = true
 CooldownLastShot = 0.3
 RecoilCooldown = 0.2
 maxVerticalLift = 0.5
-gunRecoilX = 0.005
-gunRecoilY = -0.01
-gunRecoilZ = 0.06
-gunRotRecoilX = 0.02
-gunRecoilSnappiness = 10.0
-gunReturnSpeed = 10.0
 GunRecoilEnabled = true
 
 [node name="SwayController" type="Node3D" parent="Head/HeadAnimationLayer/Camera/WeaponController/GunRecoilController" node_paths=PackedStringArray("character")]

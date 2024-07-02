@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://7kgfpyk40i1u"]
+
+[ext_resource type="Texture2D" uid="uid://narw2ifk2osy" path="res://Assets/Weapons/Glock/glock_4K_BaseColor.png" id="1_47w56"]
+[ext_resource type="Texture2D" uid="uid://jo8re06q63ti" path="res://Assets/Weapons/Glock/glock_4K_Metallic.png" id="2_4bcwn"]
+[ext_resource type="Texture2D" uid="uid://cuv4p5nq0rv2m" path="res://Assets/Weapons/Glock/glock_4K_Normal.png" id="3_2raf3"]
+[ext_resource type="Texture2D" uid="uid://dsyqvvp870ihn" path="res://Assets/Weapons/Glock/glock_4K_Roughness.png" id="4_dut0x"]
+
+[resource]
+albedo_texture = ExtResource("1_47w56")
+metallic = 1.0
+metallic_texture = ExtResource("2_4bcwn")
+roughness_texture = ExtResource("4_dut0x")
+normal_enabled = true
+normal_texture = ExtResource("3_2raf3")

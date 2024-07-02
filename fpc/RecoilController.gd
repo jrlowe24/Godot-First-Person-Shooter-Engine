@@ -19,13 +19,13 @@ var gunCurrentRotation : Vector3
 @export var maxVerticalLift : float = .1
 
 @export_category("GunRecoil")
-@export var gunRecoilX : float
-@export var gunRecoilY : float
-@export var gunRecoilZ : float
-@export var gunRotRecoilX : float
-@export var gunRecoilSnappiness : float
-@export var gunReturnSpeed : float
 @export var GunRecoilEnabled : bool
+var gunRecoilX : float
+var gunRecoilY : float
+var gunRecoilZ : float
+var gunRotRecoilX : float
+var gunRecoilSnappiness : float
+var gunReturnSpeed : float
 
 var WeaponController : Node3D
 var camera : Camera3D
@@ -50,7 +50,11 @@ func _ready():
 	Head = self.get_parent_node_3d().get_parent().get_parent_node_3d().get_parent_node_3d()
 	base_fov = camera.fov
 	curr_fov = base_fov
-
+	
+	## For grabbing stats from weapons
+	#_on_weapon_swap()
+	WeaponController.connect("swap_weapons", _on_weapon_swap)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	## Camera Recoil
@@ -91,6 +95,7 @@ func _process(delta):
 	
 	## Gun Recoil
 	if GunRecoilEnabled:
+		print(gunRecoilZ)
 		self.rotation = lerp(self.rotation, gunTargetRotation, gunRecoilSnappiness * delta)
 		# return back to home
 		gunTargetPosition = lerp(gunTargetPosition, Vector3.ZERO, gunReturnSpeed * delta)
@@ -122,6 +127,7 @@ func shoot():
 	
 	if WeaponController.ADS:
 		gunTargetPosition += Vector3(randf_range(-gunRecoilX, gunRecoilX), gunRecoilY / 3,gunRecoilZ)
+		gunTargetRotation += Vector3(gunRotRecoilX, 0,0)
 	else:
 		gunTargetRotation += Vector3(gunRotRecoilX, 0,0)
 		gunTargetPosition += Vector3(randf_range(-gunRecoilX, gunRecoilX), gunRecoilY,gunRecoilZ)
@@ -131,3 +137,13 @@ func shoot():
 	
 	target_fov += 2
 	target_fov = clampf(target_fov, 0, base_fov + 2)
+	
+func _on_weapon_swap():
+	print("sdfsdf")
+	gunRecoilX = WeaponController.getCurrWeaponProperty("Gun_Recoil").x
+	gunRecoilY = WeaponController.getCurrWeaponProperty("Gun_Recoil").y
+	gunRecoilZ = WeaponController.getCurrWeaponProperty("Gun_Recoil").z
+	gunRotRecoilX = WeaponController.getCurrWeaponProperty("Gun_Rot_Recoil_X")
+	gunRecoilSnappiness = WeaponController.getCurrWeaponProperty("Gun_Recoil_Snappiness")
+	gunReturnSpeed = WeaponController.getCurrWeaponProperty("Gun_Return_Speed")
+	

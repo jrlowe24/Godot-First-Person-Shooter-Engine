@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://fpc/debug.gd" id="2_jq14x"]
 [ext_resource type="Script" path="res://fpc/EditorModule.gd" id="3_gssr6"]
 [ext_resource type="Script" path="res://fpc/RecoilController.gd" id="3_ulpgy"]
-[ext_resource type="AudioStream" uid="uid://cy4rqphek27cv" path="res://Assets/Weapons/Ak47/Ak47Shot.wav" id="7_em620"]
+[ext_resource type="AudioStream" uid="uid://b456dflo4tvys" path="res://Assets/Weapons/Glock/glock19-18535.mp3" id="5_mw5o4"]
 [ext_resource type="Script" path="res://fpc/WeaponSubViewport.gd" id="8_uiw4d"]
 [ext_resource type="Script" path="res://fpc/SubViewportCamera.gd" id="9_1l6xy"]
 
@@ -521,7 +521,11 @@ transform = Transform3D(1, -4.61893e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.3226
 transform = Transform3D(1, -1.33519e-08, 1.28628e-08, -8.65896e-09, 1, -5.4536e-09, 6.19989e-10, -3.01693e-08, 1, 0, 0, 0)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
-stream = ExtResource("7_em620")
+stream = ExtResource("5_mw5o4")
+unit_size = 5.0
+max_db = 2.0
+pitch_scale = 1.1
+max_polyphony = 5
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
 transform = Transform3D(1, 0, -2.18367e-23, 6.10941e-25, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.25514e-17, -0.0313234, 2.74334e-11)

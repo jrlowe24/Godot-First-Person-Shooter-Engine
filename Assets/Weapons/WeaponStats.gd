@@ -6,6 +6,7 @@ class_name WeaponStats extends Resource
 @export var Has_Full_Auto : bool
 @export var Has_Semi_Auto : bool
 @export var Default_Fire_Mode : int
+@export var Shoot_Sound_Path : String
 
 
 ## Accuracy and Recoil Stats

@@ -10,6 +10,7 @@ Fire_Rate = 10.0
 Has_Full_Auto = false
 Has_Semi_Auto = true
 Default_Fire_Mode = 1
+Shoot_Sound_Path = "res://Assets/Weapons/Glock/glock19-18535.mp3"
 Hipfire_Vertical_Bullet_Spread = 20.0
 Hipfire_Horizontal_Bullet_Spread = 20.0
 ADS_Vertical_Bullet_Spread = 5.0

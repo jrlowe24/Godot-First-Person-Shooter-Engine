@@ -62,6 +62,8 @@ func _ready():
 	weaponHolder.add_child(sidearm)
 	secondary.visible = false
 	sidearm.visible = false
+	var shootSound = load(getCurrWeaponProperty("Shoot_Sound_Path")) as AudioStream
+	audioStreamPlayer.stream = shootSound
 	
 	emit_signal("swap_weapons")
 	
@@ -86,6 +88,8 @@ func _process(delta):
 			if curr_weapon <= len(weaponList) - 1:
 				weaponList[curr_weapon].visible = false
 			curr_weapon = (curr_weapon + 1) % len(weaponList)
+			var shootSound = load(getCurrWeaponProperty("Shoot_Sound_Path")) as AudioStream
+			audioStreamPlayer.stream = shootSound
 			weaponList[curr_weapon].visible = true
 			weaponOperations.play_backwards("WeaponExit")
 			emit_signal("swap_weapons")

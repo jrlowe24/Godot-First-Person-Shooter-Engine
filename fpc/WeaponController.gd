@@ -62,8 +62,7 @@ func _ready():
 	weaponHolder.add_child(sidearm)
 	secondary.visible = false
 	sidearm.visible = false
-	var shootSound = load(getCurrWeaponProperty("Shoot_Sound_Path")) as AudioStream
-	audioStreamPlayer.stream = shootSound
+	updateSounds(0)
 	
 	emit_signal("swap_weapons")
 	
@@ -71,47 +70,18 @@ func _process(delta):
 	process_inputs(delta)
 	
 	## ADS logic
-	if getCurrWeapon(): 
-		var target_position : Vector3
-		if ADS:
-			RETICLE.visible = false
-			target_position = getCurrWeaponProperty("ADS_Position")
-		else:
-			RETICLE.visible = true
-			target_position = Vector3.ZERO
-		weaponHolder.position = lerp(weaponHolder.position, target_position, delta * getCurrWeaponProperty("ADS_Speed"))
+	if getCurrWeapon():
+		handleAiming(delta)
 	
 	## Weapon Swapping
 	if weaponState == "swapping":
 		# wait until animation putting away current weapon is done
-		if animationTime <= -.2:
-			if curr_weapon <= len(weaponList) - 1:
-				weaponList[curr_weapon].visible = false
-			curr_weapon = (curr_weapon + 1) % len(weaponList)
-			var shootSound = load(getCurrWeaponProperty("Shoot_Sound_Path")) as AudioStream
-			audioStreamPlayer.stream = shootSound
-			weaponList[curr_weapon].visible = true
-			weaponOperations.play_backwards("WeaponExit")
-			emit_signal("swap_weapons")
-			weaponState = "idle"
+		if animationTime <= 0:
+			swapWeapons()
+			
 	if weaponState == "dropping":
 		if animationTime <= 0:
-			var currentWeapon = getCurrWeapon()
-			# add weapon object into the world
-			var weaponObjectDrop = preload("res://Assets/Weapons/WeaponObject.tscn").instantiate()
-			weaponObjectDrop.setWeaponMesh(getCurrWeaponProperty("WeaponMeshPath"))
-			#weaponObjectDrop.global_position = self.global_position
-			var forward_direction = -character.HEAD.global_transform.basis.z
-			weaponObjectDrop.global_position = self.global_position + forward_direction * 1
-			#weaponObjectDrop.pos
-			Evironment.add_child(weaponObjectDrop)
-			
-			currentWeapon.queue_free()
-			weaponList.remove_at(curr_weapon)
-			if len(weaponList) > 0:
-				weaponState = "swapping"
-			else:
-				weaponState = "idle"
+			dropWeapon()
 			
 	animationTime -= delta
 	shootTimer += delta
@@ -124,10 +94,10 @@ func process_inputs(delta):
 	
 	# weapon swapping
 	if Input.is_action_just_pressed("item1") and len(weaponList) > 1:
-		swapWeapons()
+		startWeaponSwap()
 	
 	if Input.is_action_just_pressed("dropItem") and len(weaponList) > 0:
-		dropCurrWeapon()
+		startWeaponDrop()
 	
 	var fire_mode = getCurrWeaponProperty("Default_Fire_Mode")
 	# full auto
@@ -139,17 +109,53 @@ func process_inputs(delta):
 		if Input.is_action_just_pressed("shoot") and len(weaponList) > 0:
 			useWeapon(delta)
 
+func handleAiming(delta):
+	var target_position : Vector3
+	if ADS:
+		RETICLE.visible = false
+		target_position = getCurrWeaponProperty("ADS_Position")
+	else:
+		RETICLE.visible = true
+		target_position = Vector3.ZERO
+	weaponHolder.position = lerp(weaponHolder.position, target_position, delta * getCurrWeaponProperty("ADS_Speed"))
+
 func swapWeapons():
+	if curr_weapon <= len(weaponList) - 1:
+		weaponList[curr_weapon].visible = false
+	curr_weapon = (curr_weapon + 1) % len(weaponList)
+	weaponList[curr_weapon].visible = true
+	weaponOperations.play_backwards("WeaponExit")
+	emit_signal("swap_weapons")
+	weaponState = "idle"
+	
+func startWeaponSwap():
 	weaponOperations.play("WeaponExit")
+	updateSounds((curr_weapon + 1) % len(weaponList))
 	weaponState = "swapping"
 	animationTime = weaponOperations.get_animation("WeaponExit").length
+	
+func dropWeapon():
+	var currentWeapon = getCurrWeapon()
+	# add weapon object into the world, this is just a proof of concept
+	var weaponObjectDrop = preload("res://Assets/Weapons/WeaponObject.tscn").instantiate()
+	weaponObjectDrop.setWeaponMesh(getCurrWeaponProperty("WeaponMeshPath"))
+	var forward_direction = -character.HEAD.global_transform.basis.z
+	weaponObjectDrop.global_position = self.global_position + forward_direction * 1
+	Evironment.add_child(weaponObjectDrop)
+	
+	# clear out the cur
+	currentWeapon.queue_free()
+	weaponList.remove_at(curr_weapon)
+	if len(weaponList) > 0:
+		weaponState = "swapping"
+	else:
+		weaponState = "idle"
 
-func dropCurrWeapon():
+func startWeaponDrop():
 	#getCurrWeapon().drop()
 	weaponState = "dropping"
 	weaponOperations.play("WeaponExit")
 	animationTime = weaponOperations.get_animation("WeaponExit").length
-	#swapWeapons()
 
 func useWeapon(delta):
 	if shootTimer > (1 / getCurrWeaponProperty("Fire_Rate")) and weaponState != "swapping":
@@ -190,6 +196,10 @@ func useWeapon(delta):
 		if bulletRayCast.is_colliding():
 			make_bullet_hole()
 
+func updateSounds(weapon_idx):
+	var shootSound = load(getWeaponProperty(weapon_idx, "Shoot_Sound_Path")) as AudioStream
+	audioStreamPlayer.stream = shootSound
+
 # returns the currently equipped weapon node
 func getCurrWeapon():
 	if self.curr_weapon <= len(self.weaponList) - 1:
@@ -199,6 +209,9 @@ func getCurrWeapon():
 
 func getCurrWeaponProperty(property):
 	return self.weaponList[self.curr_weapon].gun_stats.get(property)
+
+func getWeaponProperty(idx, property):
+	return self.weaponList[idx].gun_stats.get(property)
 
 func make_bullet_hole():
 	var collider = bulletRayCast.get_collider()

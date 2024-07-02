@@ -36,7 +36,7 @@ var maxWeapons : int = 2
 var curr_weapon : int = 0
 
 signal swap_weapons
-
+signal shoot_signal
 
 func _ready():
 	audioStreamPlayer = $AudioStreamPlayer3D
@@ -160,6 +160,7 @@ func startWeaponDrop():
 func useWeapon(delta):
 	if shootTimer > (1 / getCurrWeaponProperty("Fire_Rate")) and weaponState != "swapping":
 		shootTimer = 0
+		emit_signal("shoot_signal")
 		audioStreamPlayer.play()
 		recoilController.shoot()
 		# vibration doesn't work in this godot version

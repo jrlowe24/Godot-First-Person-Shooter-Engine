@@ -26,6 +26,7 @@ var gunRecoilZ : float
 var gunRotRecoilX : float
 var gunRecoilSnappiness : float
 var gunReturnSpeed : float
+var adsRecoilMultiplier : float
 
 var WeaponController : Node3D
 var camera : Camera3D
@@ -57,6 +58,8 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	adsRecoilMultiplier = WeaponController.getCurrWeaponProperty("ADS_Recoil_Multiplier")
+	
 	## Camera Recoil
 	if CameraRecoilEnabled:
 		# camTargetRotation is the building recoil vector, once you stop shooting this gets set to zero again
@@ -126,7 +129,10 @@ func shoot():
 	
 	if WeaponController.ADS:
 		gunTargetPosition += Vector3(randf_range(-gunRecoilX, gunRecoilX), gunRecoilY / 3,gunRecoilZ)
-		gunTargetRotation += Vector3(gunRotRecoilX, 0,0)
+		var targetRotation = gunRotRecoilX
+		if Input.is_action_pressed("aim"):
+			targetRotation = gunRotRecoilX * adsRecoilMultiplier
+		gunTargetRotation += Vector3(targetRotation, 0,0)
 	else:
 		gunTargetRotation += Vector3(gunRotRecoilX, 0,0)
 		gunTargetPosition += Vector3(randf_range(-gunRecoilX, gunRecoilX), gunRecoilY,gunRecoilZ)

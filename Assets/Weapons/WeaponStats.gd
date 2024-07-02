@@ -19,5 +19,6 @@ class_name WeaponStats extends Resource
 @export var Gun_Rot_Recoil_X : float
 @export var Gun_Recoil_Snappiness : float
 @export var Gun_Return_Speed : float
+@export var ADS_Recoil_Multiplier : float
 
 @export var WeaponMeshPath : String

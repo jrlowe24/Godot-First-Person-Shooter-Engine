@@ -7,3 +7,7 @@ script = ExtResource("1_6unw5")
 ADS_Position = Vector3(-0.201, 0.01, 0.3)
 ADS_Speed = 15.0
 Fire_Rate = 14.0
+Hipfire_Vertical_Bullet_Spread = 40.0
+Hipfire_Horizontal_Bullet_Spread = 40.0
+ADS_Vertical_Bullet_Spread = 5.0
+ADS_Horizontal_Bullet_Spread = 5.0

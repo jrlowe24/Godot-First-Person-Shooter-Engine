@@ -25,12 +25,8 @@ albedo_color = Color(0.681125, 0.792132, 1, 1)
 [node name="Character" parent="." instance=ExtResource("1_s4aoh")]
 jump_velocity = 3.0
 
-[node name="WeaponController" parent="Character/Head/Camera" index="0" node_paths=PackedStringArray("recoilController", "Evironment")]
-recoilController = NodePath("GunRecoilController")
-Evironment = NodePath("../../../../Environment")
-
-[node name="RayCast3D" parent="Character/Head/Camera/WeaponController" index="2"]
-transform = Transform3D(1, -8.91751e-40, -2.18367e-23, 6.10941e-25, -4.3839e-08, -1, -5.90601e-33, 1, -4.55407e-08, -2.25514e-17, -0.0613121, 0.00104723)
+[node name="WeaponController" parent="Character/Head/HeadAnimationLayer/Camera" index="0" node_paths=PackedStringArray("Evironment")]
+Evironment = NodePath("../../../../../Environment")
 
 [node name="WeaponViewport" parent="Character" index="7"]
 visible = false

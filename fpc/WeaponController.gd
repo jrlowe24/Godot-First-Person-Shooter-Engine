@@ -84,9 +84,6 @@ func _process(delta):
 	shootTimer += delta
 	
 func process_inputs(delta):
-
-	if Input.is_action_pressed("shoot"):
-		useWeapon(delta)
 	if Input.is_action_pressed("aim"):
 		ADS = true
 	else:
@@ -99,6 +96,9 @@ func process_inputs(delta):
 	if Input.is_action_just_pressed("dropItem"):
 		pass
 		#dropCurrWeapon()
+		
+	if Input.is_action_pressed("shoot"):
+		useWeapon(delta)
 
 func swapWeapons():
 	if len(weaponList) > 1:
@@ -137,6 +137,21 @@ func useWeapon(delta):
 			#var collision_normal = result.normal.normalized()
 		
 		# may want to use space state raycast to get mesh and not collider
+		# adjust the "accuracy" accuracy of the raycast before checking collsion
+		var horizontal_spread : float
+		var vertical_spread : float
+		bulletRayCast.target_position.x = 0
+		bulletRayCast.target_position.z = 0
+		if Input.is_action_pressed("aim"):
+			print('using ads spread')
+			horizontal_spread = getCurrWeaponProperty("ADS_Horizontal_Bullet_Spread")
+			vertical_spread = getCurrWeaponProperty("ADS_Vertical_Bullet_Spread")
+		else:
+			print('using hipfire spread')
+			horizontal_spread = getCurrWeaponProperty("Hipfire_Horizontal_Bullet_Spread")
+			vertical_spread = getCurrWeaponProperty("Hipfire_Vertical_Bullet_Spread")
+		bulletRayCast.target_position.x = randf_range(-horizontal_spread, horizontal_spread)
+		bulletRayCast.target_position.z = randf_range(-vertical_spread, vertical_spread)
 		if bulletRayCast.is_colliding():
 			make_bullet_hole()
 

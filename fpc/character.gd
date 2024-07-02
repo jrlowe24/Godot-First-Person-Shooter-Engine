@@ -81,7 +81,7 @@ func _ready():
 	rotation.y = 0
 	
 	HEAD = $Head
-	CAMERA = $Head/Camera
+	CAMERA = $Head/HeadAnimationLayer/Camera
 	HEADBOB_ANIMATION = $Head/HeadbobAnimation
 	JUMP_ANIMATION = $Head/JumpAnimation
 	CROUCH_ANIMATION = $CrouchAnimation
@@ -446,7 +446,8 @@ func _process(delta):
 				Input.MOUSE_MODE_VISIBLE:
 					Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
-	
+	$UserInterface/DebugPanel.add_property("Camera Rotation", CAMERA.rotation, 5)
+	$UserInterface/DebugPanel.add_property("Head Rotation", HEAD.rotation, 5)
 	HEAD.rotation.x = clamp(HEAD.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 	
 	# Uncomment if you want full controller support

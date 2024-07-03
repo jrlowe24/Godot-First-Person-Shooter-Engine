@@ -1,0 +1,360 @@
+[gd_scene load_steps=14 format=3 uid="uid://b7rwbx7t38ppt"]
+
+[ext_resource type="Script" path="res://Assets/Weapons/Sniper/Scope.gd" id="1_qpvum"]
+[ext_resource type="Texture2D" uid="uid://cxwap67myamlk" path="res://Assets/Weapons/Sniper/textures/Reticle.png" id="2_spthe"]
+
+[sub_resource type="Shader" id="Shader_k2gby"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx,unshaded;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform float edge_distortion = 4.5;
+uniform float _Vignette = .5;
+uniform sampler2D _ReticleTex : hint_default_transparent, filter_linear_mipmap, repeat_disable;
+uniform sampler2D _MainTex : hint_default_black, filter_linear_mipmap;
+uniform float fov = 47;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+	
+	float scale = 1.0 / tan(fov * 0.5 * PI / 180.0);
+	PROJECTION_MATRIX[0][0] = scale / (VIEWPORT_SIZE.x / VIEWPORT_SIZE.y);
+	PROJECTION_MATRIX[1][1] = -scale;
+	
+	POSITION = PROJECTION_MATRIX * MODELVIEW_MATRIX * vec4(VERTEX.xyz, 1.0);
+	POSITION.z = mix(POSITION.z, 0, 0.99);
+}
+
+
+
+void fragment() {
+	//vec2 base_uv = UV;
+	float edgeWeight = distance(UV, vec2(0.5, 0.5));
+	vec2 distortionOffset = vec2(0.5, 0.5) - UV;
+	vec2 distortionVector = (distortionOffset / length(distortionOffset));
+	float distortionMagnitude = length(distortionOffset);
+	vec2 base_uv = UV + distortionVector * pow(distortionMagnitude, edge_distortion);
+	
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+	
+	
+	vec4 reticleColor = texture(_ReticleTex, base_uv);
+	
+	//vec4 rtColor = texture(texture_albedo, base_uv);
+	// albedo_text
+	//vec4 lensColor = texture(_MainTex, UV);
+	//float vignetteWeight = clamp((1.0-_Vignette) / edgeWeight, 0.0, 1.0);
+	//
+	if (reticleColor.a > 0.85) {
+		ALBEDO = reticleColor.rgb;
+	} else {
+		//ALBEDO = mix(albedo_tex.rgb, lensColor.rgb, lensColor.a) * vignetteWeight;
+	};
+	//ALBEDO = (reticleColor.a > 0.85) ? reticleColor.rgb
+
+}
+"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_im0kt"]
+viewport_path = NodePath("Node3D/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f2c1c"]
+resource_local_to_scene = true
+resource_name = "DefaultMaterial"
+render_priority = 0
+shader = SubResource("Shader_k2gby")
+shader_parameter/albedo = Color(0.735357, 0.735357, 0.735357, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/edge_distortion = 1.0
+shader_parameter/_Vignette = 0.5
+shader_parameter/fov = 47.0
+shader_parameter/texture_albedo = SubResource("ViewportTexture_im0kt")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tegds"]
+_surfaces = [{
+"aabb": AABB(-0.01, -0.01, 0, 0.02, 0.02, 1e-05),
+"format": 34896613377,
+"index_count": 90,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 3, 0, 5, 0, 4, 0, 6, 0, 8, 0, 7, 0, 9, 0, 11, 0, 10, 0, 10, 0, 13, 0, 12, 0, 10, 0, 14, 0, 13, 0, 10, 0, 15, 0, 14, 0, 16, 0, 18, 0, 17, 0, 16, 0, 3, 0, 4, 0, 4, 0, 18, 0, 16, 0, 4, 0, 19, 0, 18, 0, 4, 0, 20, 0, 19, 0, 21, 0, 22, 0, 17, 0, 21, 0, 6, 0, 7, 0, 18, 0, 21, 0, 17, 0, 18, 0, 23, 0, 21, 0, 13, 0, 24, 0, 17, 0, 12, 0, 13, 0, 17, 0, 12, 0, 9, 0, 10, 0, 22, 0, 12, 0, 17, 0, 22, 0, 25, 0, 12, 0, 7, 0, 26, 0, 22, 0, 7, 0, 27, 0, 26, 0, 7, 0, 22, 0, 21, 0, 1, 0, 29, 0, 28, 0, 1, 0, 30, 0, 29, 0, 1, 0, 17, 0, 0, 0, 28, 0, 17, 0, 1, 0, 28, 0, 16, 0, 17, 0, 28, 0, 31, 0, 16, 0),
+"name": "DefaultMaterial",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray(251, 176, 64, 246, 0, 0, 0, 0, 129, 218, 129, 218, 0, 0, 0, 0, 28, 199, 108, 234, 0, 0, 0, 0, 64, 246, 3, 79, 0, 0, 0, 0, 129, 218, 125, 37, 0, 0, 0, 0, 108, 234, 226, 56, 0, 0, 0, 0, 3, 79, 190, 9, 0, 0, 0, 0, 125, 37, 125, 37, 0, 0, 0, 0, 226, 56, 146, 21, 0, 0, 0, 0, 190, 9, 251, 176, 0, 0, 0, 0, 125, 37, 129, 218, 0, 0, 0, 0, 146, 21, 28, 199, 0, 0, 0, 0, 117, 2, 248, 152, 0, 0, 0, 0, 6, 103, 137, 253, 0, 0, 0, 0, 3, 79, 64, 246, 0, 0, 0, 0, 226, 56, 108, 234, 0, 0, 0, 0, 137, 253, 6, 103, 0, 0, 0, 0, 248, 152, 137, 253, 0, 0, 0, 0, 248, 152, 117, 2, 0, 0, 0, 0, 251, 176, 190, 9, 0, 0, 0, 0, 28, 199, 146, 21, 0, 0, 0, 0, 6, 103, 117, 2, 0, 0, 0, 0, 117, 2, 6, 103, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 255, 127, 255, 255, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 0, 0, 190, 9, 3, 79, 0, 0, 0, 0, 146, 21, 226, 56, 0, 0, 0, 0, 137, 253, 248, 152, 0, 0, 0, 0, 64, 246, 251, 176, 0, 0, 0, 0, 108, 234, 28, 199, 0, 0, 0, 0, 255, 255, 255, 127, 0, 0, 0, 0)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_npn4g"]
+resource_local_to_scene = true
+resource_name = "Root Scene_Lens"
+_surfaces = [{
+"aabb": AABB(-0.01, -0.01, 0, 0.02, 0.02, 1e-05),
+"attribute_data": PackedByteArray(226, 56, 146, 21, 146, 21, 226, 56, 125, 37, 125, 37, 146, 21, 28, 199, 226, 56, 108, 234, 125, 37, 129, 218, 28, 199, 108, 234, 108, 234, 28, 199, 129, 218, 129, 218, 108, 234, 226, 56, 28, 199, 146, 21, 129, 218, 125, 37, 64, 246, 3, 79, 255, 127, 0, 0, 248, 152, 117, 2, 251, 176, 190, 9, 190, 9, 251, 176, 3, 79, 190, 9, 255, 127, 255, 255, 6, 103, 137, 253, 3, 79, 64, 246, 251, 176, 64, 246, 255, 255, 255, 127, 248, 152, 137, 253, 6, 103, 117, 2, 137, 253, 6, 103, 137, 253, 248, 152, 64, 246, 251, 176, 0, 0, 255, 127, 117, 2, 6, 103, 190, 9, 3, 79, 117, 2, 248, 152),
+"format": 34896613399,
+"index_count": 90,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 3, 0, 5, 0, 4, 0, 6, 0, 8, 0, 7, 0, 9, 0, 11, 0, 10, 0, 10, 0, 13, 0, 12, 0, 10, 0, 14, 0, 13, 0, 10, 0, 15, 0, 14, 0, 16, 0, 18, 0, 17, 0, 16, 0, 3, 0, 4, 0, 4, 0, 18, 0, 16, 0, 4, 0, 19, 0, 18, 0, 4, 0, 20, 0, 19, 0, 21, 0, 22, 0, 17, 0, 21, 0, 6, 0, 7, 0, 18, 0, 21, 0, 17, 0, 18, 0, 23, 0, 21, 0, 13, 0, 24, 0, 17, 0, 12, 0, 13, 0, 17, 0, 12, 0, 9, 0, 10, 0, 22, 0, 12, 0, 17, 0, 22, 0, 25, 0, 12, 0, 7, 0, 26, 0, 22, 0, 7, 0, 27, 0, 26, 0, 7, 0, 22, 0, 21, 0, 1, 0, 29, 0, 28, 0, 1, 0, 30, 0, 29, 0, 1, 0, 17, 0, 0, 0, 28, 0, 17, 0, 1, 0, 28, 0, 16, 0, 17, 0, 28, 0, 31, 0, 16, 0),
+"material": SubResource("ShaderMaterial_f2c1c"),
+"name": "DefaultMaterial",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray(251, 176, 64, 246, 0, 0, 255, 7, 129, 218, 129, 218, 0, 0, 255, 7, 28, 199, 108, 234, 0, 0, 255, 7, 64, 246, 3, 79, 0, 0, 255, 7, 129, 218, 125, 37, 0, 0, 255, 7, 108, 234, 226, 56, 0, 0, 255, 7, 3, 79, 190, 9, 0, 0, 255, 7, 125, 37, 125, 37, 0, 0, 255, 7, 226, 56, 146, 21, 0, 0, 255, 7, 190, 9, 251, 176, 0, 0, 255, 7, 125, 37, 129, 218, 0, 0, 255, 7, 146, 21, 28, 199, 0, 0, 0, 8, 117, 2, 248, 152, 0, 0, 255, 7, 6, 103, 137, 253, 0, 0, 255, 7, 3, 79, 64, 246, 0, 0, 255, 7, 226, 56, 108, 234, 0, 0, 255, 7, 137, 253, 6, 103, 0, 0, 255, 7, 248, 152, 137, 253, 0, 0, 255, 7, 248, 152, 117, 2, 0, 0, 255, 7, 251, 176, 190, 9, 0, 0, 255, 7, 28, 199, 146, 21, 0, 0, 255, 7, 6, 103, 117, 2, 0, 0, 255, 7, 117, 2, 6, 103, 0, 0, 255, 7, 255, 127, 0, 0, 0, 0, 255, 7, 255, 127, 255, 255, 0, 0, 255, 7, 0, 0, 255, 127, 0, 0, 255, 7, 190, 9, 3, 79, 0, 0, 255, 7, 146, 21, 226, 56, 0, 0, 255, 7, 137, 253, 248, 152, 0, 0, 255, 7, 64, 246, 251, 176, 0, 0, 255, 7, 108, 234, 28, 199, 0, 0, 255, 7, 255, 255, 255, 127, 0, 0, 255, 7, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127, 255, 127)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_tegds")
+
+[sub_resource type="Shader" id="Shader_2msa1"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx,unshaded;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform float edge_distortion = 1;
+uniform float _Vignette = .5;
+uniform sampler2D _ReticleTex : hint_default_transparent, filter_linear_mipmap, repeat_disable;
+uniform sampler2D _MainTex : hint_default_black, filter_linear_mipmap;
+uniform float fov = 47;
+
+uniform float tex_scale = 0.1;
+uniform float intensity_factor = 1.0;
+
+
+varying vec3 v_vertex;
+varying vec3 v_pos;
+varying vec3 v_normal;
+varying vec3 v_tangent;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+	
+	float scale = 1.0 / tan(fov * 0.5 * PI / 180.0);
+	PROJECTION_MATRIX[0][0] = scale / (VIEWPORT_SIZE.x / VIEWPORT_SIZE.y);
+	PROJECTION_MATRIX[1][1] = -scale;
+	
+	POSITION = PROJECTION_MATRIX * MODELVIEW_MATRIX * vec4(VERTEX.xyz, 1.0);
+	POSITION.z = mix(POSITION.z, 0, 0.99);
+	
+	v_vertex = ((PROJECTION_MATRIX * MODELVIEW_MATRIX) * vec4(VERTEX, 1.0)).xyz;
+    v_pos = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+    v_normal = (transpose(inverse(MODELVIEW_MATRIX)) * vec4(NORMAL, 0.0)).xyz;
+    v_tangent = (transpose(inverse(MODELVIEW_MATRIX)) * vec4(TANGENT, 0.0)).xyz;
+
+}
+
+
+
+void fragment() {
+	//vec2 base_uv = UV;
+	float edgeWeight = distance(UV, vec2(0.5, 0.5));
+	vec2 distortionOffset = vec2(0.5, 0.5) - UV;
+	vec2 distortionVector = (distortionOffset / length(distortionOffset));
+	float distortionMagnitude = length(distortionOffset);
+	vec2 base_uv = UV + distortionVector * pow(distortionMagnitude, edge_distortion);
+	
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+	
+	float vignette = 1.0 - smoothstep(0.5 - _Vignette, 0.5, edgeWeight);
+	//ALBEDO *= vignette;
+	
+    vec3 normal = normalize(v_normal);
+    vec3 tangent = normalize(v_tangent);
+    vec3 cameraDir = normalize(v_pos);
+    vec3 offset = cameraDir + normal;
+
+	
+	 mat3 mat = mat3(
+        -tangent,
+        cross(-normal, -tangent),
+        vec3(normal.x, -normal.y, normal.z)
+    );
+    
+    offset = mat * offset;
+    vec2 uv = (offset.xy / tex_scale) * vec2(1.0, -1.0);	
+	
+	vec4 reticleColor = texture(_ReticleTex, uv + vec2(0.5, 0.5)) * intensity_factor;
+	
+	//ALBEDO = albedo_tex.rgb;
+	if (reticleColor.a > 0.4) {
+		//ALBEDO = reticleColor.rgb;
+	} else {
+		//ALBEDO = mix(albedo_tex.rgb, lensColor.rgb, lensColor.a) * vignetteWeight;
+	};
+	
+	vec4 finalColor = mix(albedo_tex, reticleColor, reticleColor.a) * vignette;
+	ALBEDO = finalColor.rgb;
+	//ALBEDO = (reticleColor.a > 0.85) ? reticleColor.rgb
+	
+	//ALBEDO = texture(_ReticleTex, uv + vec2(0.5, 0.5)).xyz * intensity_factor)
+    //ALPHA = texture(_ReticleTex, uv + vec2(0.5, 0.5)).a;
+	
+	
+	//ALBEDO = albedo_tex.rgb;
+
+
+}
+"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mtf02"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8l8rm"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_2msa1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/edge_distortion = 4.5
+shader_parameter/_Vignette = 0.1
+shader_parameter/fov = 47.0
+shader_parameter/tex_scale = 0.6
+shader_parameter/intensity_factor = 1.0
+shader_parameter/texture_albedo = SubResource("ViewportTexture_mtf02")
+shader_parameter/_ReticleTex = ExtResource("2_spthe")
+
+[sub_resource type="SphereMesh" id="SphereMesh_ciog4"]
+
+[sub_resource type="Shader" id="Shader_o77vj"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+uniform float fov = 47;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+	
+	float scale = 1.0 / tan(fov * 0.5 * PI / 180.0);
+	PROJECTION_MATRIX[0][0] = scale / (VIEWPORT_SIZE.x / VIEWPORT_SIZE.y);
+	PROJECTION_MATRIX[1][1] = -scale;
+	
+	POSITION = PROJECTION_MATRIX * MODELVIEW_MATRIX * vec4(VERTEX.xyz, 1.0);
+	POSITION.z = mix(POSITION.z, 0, 0.99);
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	ALPHA = albedo.a;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yxjxp"]
+render_priority = 0
+shader = SubResource("Shader_o77vj")
+shader_parameter/albedo = Color(0.211765, 0.211765, 0.211765, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/fov = 47.0
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_qpvum")
+
+[node name="lens" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.79917, 0.387451, 3.01247e-07, -0.387451, 1.79917, -1.12516e-07, 3.18183e-07, -4.65753e-08, -1.84042, -0.135098, -0.027605, 0.343428)
+mesh = SubResource("ArrayMesh_npn4g")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_8l8rm")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 3.04919e-23, 1.74846e-07, -3.04919e-23, 1, -2.64698e-23, -1.74846e-07, 2.64698e-23, 1, 0.132592, -0.0208979, -0.908069)
+cull_mask = 1048573
+fov = 10.0
+near = 0.001
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, -0.134307, -0.0276157, 1.25444)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.04, -6.18276e-24, 4.21914e-18, 1.50954e-25, 0.04, -1.13426e-25, 0, 0, 0.005, -0.136115, -0.0279285, 0.343399)
+mesh = SubResource("SphereMesh_ciog4")
+surface_material_override/0 = SubResource("ShaderMaterial_yxjxp")

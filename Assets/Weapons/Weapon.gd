@@ -38,6 +38,7 @@ func _on_shoot():
 		#particleEmitter.set
 		particleEmitter.emitting = true
 		#particleEmitter.restart()
+
 	
 func pickUp():
 	state = "held"

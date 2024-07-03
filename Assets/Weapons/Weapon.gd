@@ -29,7 +29,6 @@ func _ready():
 var delay = 0
 func _process(delta):
 	self.audioStreamPlayer.global_transform = weaponController.global_transform
-	print(self.audioStreamPlayer.global_position)
 	if isActive:
 		process_inputs(delta)
 		
@@ -56,6 +55,7 @@ func set_active(isActive):
 			bulletRayCast.enabled = false
 	else:
 		self.visible = true
+		weaponController.RETICLE.base_spread = gun_stats.get("Hipfire_Horizontal_Bullet_Spread") * 1.5
 		if bulletRayCast:
 			bulletRayCast.enabled = true
 	

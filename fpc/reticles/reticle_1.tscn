@@ -12,11 +12,13 @@ var character : CharacterBody3D
 @export_group(\"Animate\")
 @export var animated_reticle : bool = true
 @export var reticle_speed : float = 0.5
-@export var reticle_spread : float = 4.0
+@export var return_speed : float = .5
+@export var speed_spread_factor : float = 4.0
 @export var base_spread : float = .5
-@export var jump_spread : float = .75
-@export var sprint_spread : float = 1.0
-@export var crouch_spread : float = .3
+@export var sprint_spread_multiplier : float = 1
+@export var jump_spread_multiplier : float = .75
+@export var crouch_spread_multiplier : float = .3
+var spread_target : float = base_spread
 var curr_spread : float = base_spread
 
 @export_group(\"Dot Settings\")
@@ -38,23 +40,22 @@ func _process(_delta):
 			animate_reticle_lines(_delta)
 
 
-var spread_target
 func animate_reticle_lines(delta):
 	var vel = character.get_real_velocity()
 	var origin = Vector3(0,0,0)
 	var pos = Vector2(0,0)
 	var speed_spread_multiple = origin.distance_to(vel)
+	#spread_target = lerp(spread_target, base_spread, return_speed * delta)
+	spread_target = base_spread
+	if character.state == \"sprinting\":
+		spread_target += sprint_spread_multiplier
+		
 	if character.state == \"crouching\":
-		spread_target = crouch_spread
-	elif character.state == \"sprinting\":
-		spread_target = sprint_spread
-	elif !character.is_on_floor():
-		spread_target = jump_spread
-	else:
-		spread_target = base_spread
-	
+		spread_target = base_spread * crouch_spread_multiplier
+	if !character.is_on_floor():
+		spread_target += jump_spread_multiplier
 	if character.is_on_floor():
-		spread_target += speed_spread_multiple * reticle_spread * delta
+		spread_target += speed_spread_multiple * speed_spread_factor * delta
 	curr_spread = lerp(curr_spread, spread_target, reticle_speed * delta)
 	
 	reticle_lines[0].position = Vector2(0, -curr_spread)
@@ -106,11 +107,10 @@ grow_vertical = 2
 script = SubResource("GDScript_a8kpl")
 reticle_lines = [NodePath("top"), NodePath("left"), NodePath("right"), NodePath("bottom")]
 reticle_speed = 10.0
-reticle_spread = 500.0
-base_spread = 25.0
-jump_spread = 50.0
-sprint_spread = 70.0
-crouch_spread = 15.0
+base_spread = 50.0
+sprint_spread_multiplier = 30.0
+jump_spread_multiplier = 25.0
+crouch_spread_multiplier = 0.5
 
 [node name="dot" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(-1, -1, 1, -1, 1, 1, -1, 1)

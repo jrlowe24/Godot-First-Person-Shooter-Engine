@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_8imxw")
 ADS_Position = Vector3(-0.143, 0.084, 0.15)
-ADS_Speed = 15.0
+ADS_Speed = 8.0
 Fire_Rate = 10.0
 Has_Full_Auto = false
 Has_Semi_Auto = true

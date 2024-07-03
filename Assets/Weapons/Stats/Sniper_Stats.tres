@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=2 format=3 uid="uid://jo3prwy7o0is"]
+
+[ext_resource type="Script" path="res://Assets/Weapons/WeaponStats.gd" id="1_xj6x8"]
+
+[resource]
+script = ExtResource("1_xj6x8")
+ADS_Position = Vector3(-0.137, 0.025, 0.14)
+ADS_Speed = 15.0
+Fire_Rate = 10.0
+Has_Full_Auto = false
+Has_Semi_Auto = true
+Default_Fire_Mode = 1
+Shoot_Sound_Path = "res://Assets/Weapons/Glock/glock19-18535.mp3"
+Hipfire_Vertical_Bullet_Spread = 20.0
+Hipfire_Horizontal_Bullet_Spread = 20.0
+ADS_Vertical_Bullet_Spread = 5.0
+ADS_Horizontal_Bullet_Spread = 5.0
+Gun_Recoil = Vector3(0.01, -0.05, 0.1)
+Gun_Rot_Recoil_X = 0.15
+Gun_Recoil_Snappiness = 20.0
+Gun_Return_Speed = 15.0
+ADS_Recoil_Multiplier = 0.2
+WeaponMeshPath = ""

@@ -54,14 +54,18 @@ func _ready():
 	var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
 	var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
 	var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
+	var sniper = preload("res://Assets/Weapons/Sniper/sniper_rig.tscn").instantiate()
 	weaponList.append(primary)
 	weaponList.append(secondary)
 	weaponList.append(sidearm)
+	weaponList.append(sniper)
 	weaponHolder.add_child(primary)
 	weaponHolder.add_child(secondary)
 	weaponHolder.add_child(sidearm)
+	weaponHolder.add_child(sniper)
 	secondary.visible = false
 	sidearm.visible = false
+	sniper.visible = false
 	updateSounds(0)
 	
 	emit_signal("swap_weapons")

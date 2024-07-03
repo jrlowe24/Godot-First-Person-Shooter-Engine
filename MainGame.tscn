@@ -61,7 +61,11 @@ script = ExtResource("1_pk6ti")
 scale_size = Vector2i(800, 600)
 
 [node name="Character" parent="." instance=ExtResource("1_s4aoh")]
+transform = Transform3D(0.0997539, 0, 0.995012, 0, 1, 0, -0.995012, 0, 0.0997539, 0, 0, 0)
 jump_velocity = 3.0
+
+[node name="Camera" parent="Character/Head/HeadAnimationLayer" index="0"]
+cull_mask = 1048575
 
 [node name="WeaponController" parent="Character/Head/HeadAnimationLayer/Camera" index="0" node_paths=PackedStringArray("Evironment")]
 Evironment = NodePath("../../../../../Environment")

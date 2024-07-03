@@ -479,6 +479,11 @@ default_reticle = "res://fpc/reticles/reticle_1.tscn"
 userInterface = NodePath("../../../../UserInterface")
 character = NodePath("../../../..")
 
+[node name="RayCast3D" type="RayCast3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
+transform = Transform3D(1, 0, -2.18367e-23, 6.10941e-25, -4.37114e-08, -1, -4.59177e-41, 1, -4.37114e-08, -2.25514e-17, -0.0313234, 2.74335e-11)
+target_position = Vector3(2.08165e-12, -1000, 2.08165e-12)
+collision_mask = 3
+
 [node name="GunRecoilController" type="Node3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
 transform = Transform3D(1, 1.21652e-31, -1.55948e-40, 1.21652e-31, 1, 8.75809e-10, 5.20124e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 script = ExtResource("3_ulpgy")
@@ -526,11 +531,6 @@ unit_size = 5.0
 max_db = 2.0
 pitch_scale = 1.1
 max_polyphony = 5
-
-[node name="RayCast3D" type="RayCast3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
-transform = Transform3D(1, 0, -2.18367e-23, 6.10941e-25, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2.25514e-17, -0.0313234, 2.74334e-11)
-target_position = Vector3(2.08165e-12, -1000, 2.08165e-12)
-collision_mask = 3
 
 [node name="WeaponOperations" type="AnimationPlayer" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
 libraries = {

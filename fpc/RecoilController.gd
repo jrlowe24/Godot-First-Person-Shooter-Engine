@@ -17,6 +17,7 @@ var gunCurrentRotation : Vector3
 @export var CooldownLastShot : float = .15
 @export var RecoilCooldown : float = .25
 @export var maxVerticalLift : float = .1
+@export var adsCamReoilMultiplier : float
 
 @export_category("GunRecoil")
 @export var GunRecoilEnabled : bool
@@ -142,6 +143,9 @@ func shoot():
 	
 	target_fov += 2
 	target_fov = clampf(target_fov, 0, base_fov + 2)
+
+func refresh_stats():
+	pass
 	
 func _on_weapon_swap():
 	print("sdfsdf")

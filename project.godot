@@ -115,8 +115,14 @@ dropItem={
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":11,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+interact={
+"deadzone": 0.5,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
+]
+}
 
 [layer_names]
 
 3d_render/layer_1="World"
 3d_render/layer_2="Weapon"
+3d_physics/layer_3="interactable"

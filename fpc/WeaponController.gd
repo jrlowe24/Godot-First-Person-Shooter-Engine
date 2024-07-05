@@ -8,10 +8,12 @@ var RETICLE : Control
 @export var character : CharacterBody3D
 # used for adding bullet hole decals to scene
 @export var Evironment : Node3D
+@onready var interactRayCast : RayCast3D = $InteractRayCast
 
-var audioStreamPlayer : AudioStreamPlayer3D
+
+@onready var audioStreamPlayer : AudioStreamPlayer3D = $AudioStreamPlayer3D
 # weapon animations
-var weaponOperations : AnimationPlayer
+@onready var weaponOperations : AnimationPlayer = $WeaponOperations
 
 # time since last shot
 var shootTimer : float = 0
@@ -25,7 +27,7 @@ var weaponState : String
 
 ## Item Slots
 # node that holds the weapon scene
-var weaponHolder : Node3D
+@onready var weaponHolder : Node3D = $GunRecoilController/SwayController/AnimationLayer/WeaponHolder
 # list of weapons
 var weaponList : Array
 # max number of weapons
@@ -37,9 +39,6 @@ signal swap_weapons
 signal shoot_signal
 
 func _ready():
-	audioStreamPlayer = $AudioStreamPlayer3D
-	weaponOperations = $WeaponOperations
-	weaponHolder = $GunRecoilController/SwayController/AnimationLayer/WeaponHolder
 	weaponOperations.play("Reset")
 	weaponState = "Idle"
 	if default_reticle:
@@ -47,21 +46,21 @@ func _ready():
 		
 	
 	## inventory stuff
-	var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
-	var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
-	var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
-	var sniper = preload("res://Assets/Weapons/Sniper/sniper_rig.tscn").instantiate()
-	weaponList.append(primary)
-	weaponList.append(secondary)
-	weaponList.append(sidearm)
-	weaponList.append(sniper)
-	weaponHolder.add_child(primary)
-	weaponHolder.add_child(secondary)
-	weaponHolder.add_child(sidearm)
-	weaponHolder.add_child(sniper)
-	primary.set_active(true)
+	#var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
+	#var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
+	#var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
+	#var sniper = preload("res://Assets/Weapons/Sniper/sniper_rig.tscn").instantiate()
+	#weaponList.append(primary)
+	#weaponList.append(secondary)
+	#weaponList.append(sidearm)
+	#weaponList.append(sniper)
+	#weaponHolder.add_child(primary)
+	#weaponHolder.add_child(secondary)
+	#weaponHolder.add_child(sidearm)
+	#weaponHolder.add_child(sniper)
+	#primary.set_active(true)
 	
-	emit_signal("swap_weapons")
+	#emit_signal("swap_weapons")
 	
 func _process(delta):
 	process_inputs(delta)
@@ -81,6 +80,7 @@ func _process(delta):
 			dropWeapon()
 			
 	animationTime -= delta
+	processInteract(delta)
 	
 func process_inputs(delta):
 	if Input.is_action_pressed("aim"):
@@ -95,11 +95,33 @@ func process_inputs(delta):
 	if Input.is_action_just_pressed("dropItem") and len(weaponList) > 0:
 		startWeaponDrop()
 
+func processInteract(delta):
+	if interactRayCast.is_colliding():
+		var collider = interactRayCast.get_collider()
+		print(collider.name)
+		print(collider)
+		
+		# if we are in here, that means we can pick up the weapon
+		if Input.is_action_just_pressed("interact"):
+			pickupWeapon(collider.get_parent().getType())
+
 func handleAiming(delta):
 	if ADS:
 		RETICLE.visible = false
 	else:
 		RETICLE.visible = true
+
+func pickupWeapon(weapon):
+	#var weapon = load(type).instantiate()
+	weaponList.append(weapon)
+	weaponHolder.add_child(weapon)
+	if len(weaponList) == 1:
+		weapon.set_active(true)
+		weaponOperations.play_backwards("WeaponExit")
+	else:
+		startWeaponSwap()
+	
+	emit_signal("swap_weapons")
 
 func swapWeapons():
 	if curr_weapon <= len(weaponList) - 1:

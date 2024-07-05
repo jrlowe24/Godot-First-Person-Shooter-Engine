@@ -1,11 +1,10 @@
-[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://c6p7ifh4jr7tc"]
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bw7f3g0hnlyes"]
 
 [ext_resource type="Texture2D" uid="uid://dcwn6gtsto0il" path="res://Assets/templategrid/TemplateGrid_albedo.png" id="1_wgu11"]
 [ext_resource type="Texture2D" uid="uid://cm3rcuujssivj" path="res://Assets/templategrid/TemplateGrid_normal.png" id="2_6a4wd"]
 
 [resource]
 albedo_texture = ExtResource("1_wgu11")
-normal_enabled = true
 normal_texture = ExtResource("2_6a4wd")
 uv1_scale = Vector3(10, 10, 10)
 uv1_triplanar = true

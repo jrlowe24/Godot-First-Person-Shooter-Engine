@@ -59,56 +59,56 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	adsRecoilMultiplier = WeaponController.getCurrWeaponProperty("ADS_Recoil_Multiplier")
-	
-	## Camera Recoil
-	if CameraRecoilEnabled:
-		# camTargetRotation is the building recoil vector, once you stop shooting this gets set to zero again
-		if camTargetRotation != Vector3.ZERO:
-			camera.rotation = lerp(camera.rotation, camTargetRotation, camSnappiness * delta)
-		
-		if cooldown <= 0:
-			isFirstShot = true
-		if currRecoilCooldown <= 0:
-			# Compute offset between the head movement one time once we stop shooting
-			if computeHeadOffset:
-				computeHeadOffset = false
-				HeadOffset.x = clampf(head_starting_rot.x - Head.global_rotation.x, 0, camTargetRotation.x)
-				HeadOffset.y = clampf(head_starting_rot.y - Head.global_rotation.y, 0, camTargetRotation.y)
-				#HeadOffset.z = clampf(head_starting_rot.z - Head.global_rotation.z, 0, camTargetRotation.z)
-				start_lerp = true
+	if len(WeaponController.weaponList) > 0:
+		adsRecoilMultiplier = WeaponController.getCurrWeaponProperty("ADS_Recoil_Multiplier")
+		## Camera Recoil
+		if CameraRecoilEnabled:
+			# camTargetRotation is the building recoil vector, once you stop shooting this gets set to zero again
+			if camTargetRotation != Vector3.ZERO:
+				camera.rotation = lerp(camera.rotation, camTargetRotation, camSnappiness * delta)
 			
-			camTargetRotation = Vector3.ZERO
-			camera.rotation = lerp(camera.rotation, HeadOffset + Vector3.ZERO, camReturnSpeed * delta)
-			
-			# I couldn't find a better way to do this
-			# Basically, when player moves the head in order to compensate for recoil, we don't want
-			# the camera to snap back to zero, otherwise perfect aim will snap down the verticle recoil amount
-			# if we keep that offset, eventually the camera gets super out of rotation with the head and
-			# affects the player view. After the reoil snaps back, we essentially move the head
-			# to where the camera rotation is and then set the camera rotation back to zero.
-			# This keeps everything in sync
-			if start_lerp and (camera.rotation.x - HeadOffset.x) < .02:
-				Head.rotation += Vector3(camera.rotation.x, camera.rotation.y, 0)
-				camera.rotation = Vector3.ZERO
-				HeadOffset = Vector3.ZERO
-				start_lerp = false
+			if cooldown <= 0:
+				isFirstShot = true
+			if currRecoilCooldown <= 0:
+				# Compute offset between the head movement one time once we stop shooting
+				if computeHeadOffset:
+					computeHeadOffset = false
+					HeadOffset.x = clampf(head_starting_rot.x - Head.global_rotation.x, 0, camTargetRotation.x)
+					HeadOffset.y = clampf(head_starting_rot.y - Head.global_rotation.y, 0, camTargetRotation.y)
+					#HeadOffset.z = clampf(head_starting_rot.z - Head.global_rotation.z, 0, camTargetRotation.z)
+					start_lerp = true
+				
+				camTargetRotation = Vector3.ZERO
+				camera.rotation = lerp(camera.rotation, HeadOffset + Vector3.ZERO, camReturnSpeed * delta)
+				
+				# I couldn't find a better way to do this
+				# Basically, when player moves the head in order to compensate for recoil, we don't want
+				# the camera to snap back to zero, otherwise perfect aim will snap down the verticle recoil amount
+				# if we keep that offset, eventually the camera gets super out of rotation with the head and
+				# affects the player view. After the reoil snaps back, we essentially move the head
+				# to where the camera rotation is and then set the camera rotation back to zero.
+				# This keeps everything in sync
+				if start_lerp and (camera.rotation.x - HeadOffset.x) < .02:
+					Head.rotation += Vector3(camera.rotation.x, camera.rotation.y, 0)
+					camera.rotation = Vector3.ZERO
+					HeadOffset = Vector3.ZERO
+					start_lerp = false
 
-	cooldown -= delta
-	currRecoilCooldown -= delta
-	
-	## Gun Recoil
-	if GunRecoilEnabled:
-		self.rotation = lerp(self.rotation, gunTargetRotation, gunRecoilSnappiness * delta)
-		# return back to home
-		gunTargetPosition = lerp(gunTargetPosition, Vector3.ZERO, gunReturnSpeed * delta)
-		gunTargetRotation = lerp(gunTargetRotation, Vector3.ZERO, gunReturnSpeed * delta)
-		self.position = gunTargetPosition
-		self.rotation = gunTargetRotation
-	
-	## FOV Recoil
-	target_fov = lerp(target_fov, base_fov, delta*10.0)
-	camera.fov = target_fov
+		cooldown -= delta
+		currRecoilCooldown -= delta
+		
+		## Gun Recoil
+		if GunRecoilEnabled:
+			self.rotation = lerp(self.rotation, gunTargetRotation, gunRecoilSnappiness * delta)
+			# return back to home
+			gunTargetPosition = lerp(gunTargetPosition, Vector3.ZERO, gunReturnSpeed * delta)
+			gunTargetRotation = lerp(gunTargetRotation, Vector3.ZERO, gunReturnSpeed * delta)
+			self.position = gunTargetPosition
+			self.rotation = gunTargetRotation
+		
+		## FOV Recoil
+		target_fov = lerp(target_fov, base_fov, delta*10.0)
+		camera.fov = target_fov
 func shoot():
 	computeHeadOffset = true
 	var recX = 0

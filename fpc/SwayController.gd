@@ -32,7 +32,7 @@ var sway
 var maxSway
 var bobMultiplier
 var travel
-var bobLim
+var bobLim = bobLimit
 
 var walkInput : Vector2
 var lookInput : Vector2
@@ -147,6 +147,8 @@ func process_input(delta):
 	#	walkInput.x = 0
 	## End Keyboard Support
 		
+func getBobLimit_y():
+	return bobLimit.y
 	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

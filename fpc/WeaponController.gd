@@ -1,13 +1,17 @@
 extends Node3D
 
 @export_file var default_reticle
+@export_file var hitmarker
 # The reticle should always have a Control node as the root
 var RETICLE : Control
+var Hitmarker : Control
+@onready var timer : Timer = $Timer
 
 @export var userInterface : Control
 @export var character : CharacterBody3D
 # used for adding bullet hole decals to scene
 @export var Evironment : Node3D
+@export var hitmarker_visible_duration: float = .1
 @onready var interactRayCast : RayCast3D = $InteractRayCast
 
 
@@ -44,24 +48,31 @@ func _ready():
 	if default_reticle:
 		change_reticle(default_reticle)
 		
+	Hitmarker = load(hitmarker).instantiate()
+	userInterface.add_child(Hitmarker)
+	Hitmarker.visible = false
+	timer.timeout.connect(_on_Timer_timeout)
 	
+	var timer = $Timer  # Adjust the path to your Timer node
+	timer.connect("timeout",  Callable(self, "_on_Timer_timeout"))
 	## inventory stuff
 	#var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
 	#var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
-	#var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
+	var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
 	#var sniper = preload("res://Assets/Weapons/Sniper/sniper_rig.tscn").instantiate()
 	#weaponList.append(primary)
 	#weaponList.append(secondary)
-	#weaponList.append(sidearm)
+	weaponList.append(sidearm)
 	#weaponList.append(sniper)
 	#weaponHolder.add_child(primary)
 	#weaponHolder.add_child(secondary)
-	#weaponHolder.add_child(sidearm)
+	weaponHolder.add_child(sidearm)
 	#weaponHolder.add_child(sniper)
 	#primary.set_active(true)
-	
-	#emit_signal("swap_weapons")
-	
+	sidearm.hit_detected.connect(_on_weapon_hit_detected)
+	sidearm.set_active(true)
+	emit_signal("swap_weapons")
+
 func _process(delta):
 	process_inputs(delta)
 	
@@ -98,8 +109,7 @@ func process_inputs(delta):
 func processInteract(delta):
 	if interactRayCast.is_colliding():
 		var collider = interactRayCast.get_collider()
-		print(collider.name)
-		print(collider)
+		#print(collider.name)
 		
 		# if we are in here, that means we can pick up the weapon
 		if Input.is_action_just_pressed("interact"):
@@ -113,8 +123,11 @@ func handleAiming(delta):
 
 func pickupWeapon(weapon):
 	#var weapon = load(type).instantiate()
+	print("picking up weapon")
 	weaponList.append(weapon)
 	weaponHolder.add_child(weapon)
+	weapon.hit_detected.connect(_on_weapon_hit_detected)
+	print("Connected hit_detected signal for weapon:", weapon)
 	if len(weaponList) == 1:
 		weapon.set_active(true)
 		weaponOperations.play_backwards("WeaponExit")
@@ -122,6 +135,16 @@ func pickupWeapon(weapon):
 		startWeaponSwap()
 	
 	emit_signal("swap_weapons")
+	
+func _on_Timer_timeout():
+	Hitmarker.visible = false	
+
+func _on_weapon_hit_detected(hit_info):
+	## Add logic for when hit detection hits a player
+	#Hitmarker.visible = true
+	print("hit")
+	timer.start(hitmarker_visible_duration)
+
 
 func swapWeapons():
 	if curr_weapon <= len(weaponList) - 1:

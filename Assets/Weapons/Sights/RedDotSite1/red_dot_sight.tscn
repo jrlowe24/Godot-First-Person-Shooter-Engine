@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://1puvipott0en"]
+
+[ext_resource type="Script" path="res://Assets/Weapons/Sniper/Scope.gd" id="1_tdf34"]
+[ext_resource type="PackedScene" uid="uid://dnfhcmgi86i30" path="res://Assets/Weapons/Sights/RedDotSite1/RedDotSight.fbx" id="2_fidfb"]
+
+[node name="RedDotSight" type="Node3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+script = ExtResource("1_tdf34")
+scopeType = 2
+
+[node name="Root Scene" parent="." instance=ExtResource("2_fidfb")]

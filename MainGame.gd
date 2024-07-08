@@ -3,7 +3,8 @@ extends Node3D
 @export var scale_size : Vector2i
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+
+func _onready():
 	pass # Replace with function body.
 
 

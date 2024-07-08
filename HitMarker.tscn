@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dkk6e1feix0ot"]
+
+[node name="CenterContainer" type="CenterContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeft" type="Line2D" parent="."]
+scale = Vector2(1, 0.986295)
+points = PackedVector2Array(-15, -15, -5, -5)
+width = 2.0
+
+[node name="BottomLeft" type="Line2D" parent="."]
+points = PackedVector2Array(-15, 15, -5, 5)
+width = 2.0
+
+[node name="BottomRight" type="Line2D" parent="."]
+points = PackedVector2Array(5, 5, 15, 15)
+width = 2.0
+
+[node name="TopRight" type="Line2D" parent="."]
+points = PackedVector2Array(5, -5, 15, -15)
+width = 2.0

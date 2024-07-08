@@ -6,6 +6,7 @@ extends Node3D
 var rigidbody : RigidBody3D
 @onready var animationPlayer : AnimationPlayer = $AnimationPlayer
 @onready var audioStreamPlayer : AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var particleEmitter : GPUParticles3D = $GPUParticles3D
 var recoilController : Node3D
 var arms : Node3D
 var gunMesh : MeshInstance3D
@@ -15,8 +16,16 @@ var weaponController : Node3D
 var shootTimer : float
 var ADS : bool
 var isActive : bool = false
-@onready var particleEmitter : GPUParticles3D = $GPUParticles3D
 
+signal hit_detected(hit_info)
+
+# we want to know the type of scope that is on the weapon for things like 
+# aim sensitivity
+enum scopeType {
+	IRON,
+	REDDOT,
+	SCOPE
+}
 
 func _ready():
 	self.set_active(false)
@@ -108,6 +117,9 @@ func useWeapon(delta):
 		bulletRayCast.target_position.z = randf_range(-vertical_spread, vertical_spread)
 		bulletRayCast.force_raycast_update()
 		if bulletRayCast.is_colliding():
+			var hit_info = null
+			
+			emit_signal("hit_detected", hit_info)
 			make_bullet_hole()
 
 func make_bullet_hole():

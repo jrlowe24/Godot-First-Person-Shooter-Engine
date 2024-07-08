@@ -1,14 +1,23 @@
-[gd_scene load_steps=30 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=39 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" path="res://fpc/character.gd" id="1_hivu4"]
 [ext_resource type="Script" path="res://fpc/SwayController.gd" id="2_5lhc7"]
 [ext_resource type="Script" path="res://fpc/WeaponController.gd" id="2_7x352"]
+[ext_resource type="Script" path="res://fpc/PlayerSounds.gd" id="2_im6sv"]
 [ext_resource type="Script" path="res://fpc/debug.gd" id="2_jq14x"]
+[ext_resource type="AudioStream" uid="uid://b5px5u3pk5uah" path="res://fpc/Sounds/jute-dh-steps/stepstone_1.wav" id="2_w1d6t"]
 [ext_resource type="Script" path="res://fpc/EditorModule.gd" id="3_gssr6"]
+[ext_resource type="AudioStream" uid="uid://v2q7vnqrsq4c" path="res://fpc/Sounds/jute-dh-steps/stepstone_2.wav" id="3_o0ubr"]
 [ext_resource type="Script" path="res://fpc/RecoilController.gd" id="3_ulpgy"]
+[ext_resource type="AudioStream" uid="uid://btg543ihwvdr1" path="res://fpc/Sounds/jute-dh-steps/stepstone_3.wav" id="4_rpqxn"]
+[ext_resource type="AudioStream" uid="uid://g6245pc2o2fv" path="res://fpc/Sounds/jute-dh-steps/stepstone_4.wav" id="5_k4a8x"]
 [ext_resource type="AudioStream" uid="uid://b456dflo4tvys" path="res://Assets/Weapons/Glock/glock19-18535.mp3" id="5_mw5o4"]
+[ext_resource type="AudioStream" uid="uid://qxki4jghdeet" path="res://fpc/Sounds/jute-dh-steps/stepstone_5.wav" id="6_6y0j5"]
+[ext_resource type="AudioStream" uid="uid://cmsoetyx802wk" path="res://fpc/Sounds/jute-dh-steps/stepstone_6.wav" id="7_p4qgv"]
+[ext_resource type="AudioStream" uid="uid://ksfxnkvw7tgh" path="res://fpc/Sounds/jute-dh-steps/stepstone_7.wav" id="8_2udmg"]
 [ext_resource type="Script" path="res://fpc/WeaponSubViewport.gd" id="8_uiw4d"]
 [ext_resource type="Script" path="res://fpc/SubViewportCamera.gd" id="9_1l6xy"]
+[ext_resource type="AudioStream" uid="uid://clwvw70pbmbya" path="res://fpc/Sounds/jute-dh-steps/stepstone_8.wav" id="9_w8chb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.222244, 0.715515, 1, 1)
@@ -449,6 +458,44 @@ SPRINT = "sprint"
 crouch_mode = 1
 sprint_mode = 1
 
+[node name="Sounds" type="Node3D" parent="." node_paths=PackedStringArray("swayController", "character")]
+transform = Transform3D(1, 0, 3.3803e-09, 0, 1, 0, 1.988e-09, 0, 1, 0, 0, 0)
+script = ExtResource("2_im6sv")
+swayController = NodePath("../Head/HeadAnimationLayer/Camera/WeaponController/GunRecoilController/SwayController")
+character = NodePath("..")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("2_w1d6t")
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("3_o0ubr")
+
+[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("4_rpqxn")
+
+[node name="AudioStreamPlayer3D4" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("5_k4a8x")
+
+[node name="AudioStreamPlayer3D5" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("6_6y0j5")
+
+[node name="AudioStreamPlayer3D6" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("7_p4qgv")
+
+[node name="AudioStreamPlayer3D7" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("8_2udmg")
+
+[node name="AudioStreamPlayer3D8" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 3.49179e-09, 0, 1, 0, 5.56545e-10, 0, 1, 0, 0, 0)
+stream = ExtResource("9_w8chb")
+
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
@@ -476,6 +523,7 @@ near = 0.001
 transform = Transform3D(1, -1.21652e-31, 0, -1.21652e-31, 1, 8.75809e-10, 1.56396e-40, 8.75809e-10, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 script = ExtResource("2_7x352")
 default_reticle = "res://fpc/reticles/reticle_1.tscn"
+hitmarker = "res://HitMarker.tscn"
 userInterface = NodePath("../../../../UserInterface")
 character = NodePath("../../../..")
 
@@ -536,6 +584,8 @@ max_polyphony = 5
 libraries = {
 "": SubResource("AnimationLibrary_vbxay")
 }
+
+[node name="Timer" type="Timer" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
 
 [node name="HeadbobAnimation" type="AnimationPlayer" parent="Head"]
 libraries = {

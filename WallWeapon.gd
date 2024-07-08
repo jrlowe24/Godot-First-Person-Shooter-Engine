@@ -18,7 +18,7 @@ func _ready():
 	match weaponType:
 		weaponTypes.M4:
 			model = preload("res://Assets/Weapons/M4/M4.tscn")
-			rig = preload("res://Assets/Weapons/M4/m4_rig.tscn")
+			rig = preload("res://Assets/Weapons/LMT/lmt_rig.tscn")
 		weaponTypes.AK47:
 			model = preload("res://Assets/Weapons/Ak47/AK47.tscn")
 			rig = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn")

@@ -14,6 +14,8 @@ extends CharacterBody3D
 @export var joystick_sensitivity_y : float = 200
 @export var joystick_aim_sensitivity_x : float = 150
 @export var joystick_aim_sensitivity_y : float = 150
+@export var joystick_scope_sensitivity_x : float = 75
+
 @export var joystick_deadzone: float = .08
 @export var immobile : bool = false
 

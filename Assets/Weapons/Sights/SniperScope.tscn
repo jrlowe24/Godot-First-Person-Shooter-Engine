@@ -339,6 +339,7 @@ script = ExtResource("1_qpvum")
 
 [node name="lens" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.79917, 0.387451, 3.01247e-07, -0.387451, 1.79917, -1.12516e-07, 3.18183e-07, -4.65753e-08, -1.84042, -0.135098, -0.027605, 0.343428)
+layers = 3
 mesh = SubResource("ArrayMesh_npn4g")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_8l8rm")
@@ -356,5 +357,6 @@ transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.04, -6.18276e-24, 4.21914e-18, 1.50954e-25, 0.04, -1.13426e-25, 0, 0, 0.005, -0.136115, -0.0279285, 0.343399)
+layers = 3
 mesh = SubResource("SphereMesh_ciog4")
 surface_material_override/0 = SubResource("ShaderMaterial_yxjxp")

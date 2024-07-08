@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://nm7buq8ngt1j"]
+[gd_scene load_steps=12 format=3 uid="uid://nm7buq8ngt1j"]
 
 [ext_resource type="Script" path="res://MainGame.gd" id="1_pk6ti"]
-[ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://fpc/character.tscn" id="1_s4aoh"]
 [ext_resource type="Material" uid="uid://bw7f3g0hnlyes" path="res://Assets/templategrid/TemplateGrid.tres" id="2_3p114"]
 [ext_resource type="Texture2D" uid="uid://gycdpcn51q0r" path="res://Assets/textures/kenney_prototype-textures/PNG/Light/texture_12.png" id="4_52ooa"]
 [ext_resource type="Texture2D" uid="uid://coskcd6bkvapy" path="res://Assets/textures/kenney_prototype-textures/PNG/Green/texture_01.png" id="4_lyaby"]
@@ -33,32 +32,9 @@ uv1_offset = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 uv1_triplanar = true
 uv1_world_triplanar = true
 
-[node name="Node3D" type="Node3D"]
+[node name="World" type="Node3D"]
 script = ExtResource("1_pk6ti")
 scale_size = Vector2i(800, 600)
-
-[node name="Character" parent="." instance=ExtResource("1_s4aoh")]
-transform = Transform3D(0.0997539, 0, 0.995012, 0, 1, 0, -0.995012, 0, 0.0997539, 0, 0, 0)
-jump_velocity = 3.0
-
-[node name="Camera" parent="Character/Head/HeadAnimationLayer" index="0"]
-cull_mask = 1048575
-
-[node name="WeaponController" parent="Character/Head/HeadAnimationLayer/Camera" index="0" node_paths=PackedStringArray("Evironment")]
-Evironment = NodePath("../../../../../Environment")
-
-[node name="InteractRayCast" type="RayCast3D" parent="Character/Head/HeadAnimationLayer/Camera/WeaponController" index="4"]
-target_position = Vector3(2.08165e-12, 2.08165e-12, -1.5)
-collision_mask = 4
-
-[node name="WeaponViewport" parent="Character" index="8"]
-visible = false
-
-[node name="SubViewport" parent="Character/WeaponViewport" index="0"]
-render_target_update_mode = 0
-
-[node name="Camera3D" parent="Character/WeaponViewport/SubViewport" index="0"]
-visible = false
 
 [node name="Environment" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000167668, 0.000884533, -0.000932336)
@@ -107,4 +83,47 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.132908, -0.189126, -0.17252
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.132908, -0.186066, 1.22031)
 weaponType = 1
 
-[editable path="Character"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 814.0
+offset_top = 435.0
+offset_right = -815.0
+offset_bottom = -435.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+
+[node name="HostButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="AddressEntry" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Address to Join"
+alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

@@ -4,29 +4,29 @@ extends CharacterBody3D
 @export_category("Character")
 @export var base_speed : float = 3.0
 @export var sprint_speed : float = 6.0
-@export var crouch_speed : float = 1.0
+@export var crouch_speed : float = 1.5
 @export var slide_speed : float = 5.0
 @export var ladder_speed : float = 2.0
 @export var acceleration : float = 10.0
 @export var jump_velocity : float = 4.5
 @export var mouse_sensitivity : float = 0.1
-@export var joystick_sensitivity_x : float = 300
-@export var joystick_sensitivity_y : float = 200
-@export var joystick_aim_sensitivity_x : float = 150
-@export var joystick_aim_sensitivity_y : float = 150
+@export var joystick_sensitivity_x : float = 250
+@export var joystick_sensitivity_y : float = 175
+@export var joystick_aim_sensitivity_x : float = 100
+@export var joystick_aim_sensitivity_y : float = 75
 @export var joystick_scope_sensitivity_x : float = 75
 
 @export var joystick_deadzone: float = .08
 @export var immobile : bool = false
 
 @export_group("Nodes")
-@export var HEAD : Node3D
-@export var CAMERA : Camera3D
-@export var HEADBOB_ANIMATION : AnimationPlayer
-@export var JUMP_ANIMATION : AnimationPlayer
-@export var CROUCH_ANIMATION : AnimationPlayer
-@export var COLLISION_MESH : CollisionShape3D
-@export var RAYCAST : RayCast3D
+@onready var HEAD = $Head
+@onready var CAMERA = $Head/HeadAnimationLayer/Camera
+@onready var HEADBOB_ANIMATION : AnimationPlayer = $Head/HeadbobAnimation
+@onready var JUMP_ANIMATION : AnimationPlayer = $Head/JumpAnimation
+@onready var CROUCH_ANIMATION : AnimationPlayer = $CrouchAnimation
+@onready var COLLISION_MESH : CollisionShape3D = $Collision
+#@export var RAYCAST : RayCast3D
 
 @export_group("Controls")
 # We are using UI controls because they are built into Godot Engine so they can be used right away
@@ -36,8 +36,8 @@ extends CharacterBody3D
 @export var FORWARD : String = "ui_up"
 @export var BACKWARD : String = "ui_down"
 @export var PAUSE : String = "ui_cancel"
-@export var CROUCH : String
-@export var SPRINT : String
+@export var CROUCH : String = "crouch"
+@export var SPRINT : String = "sprint"
 
 # Uncomment if you want full controller support
 #@export var LOOK_LEFT : String
@@ -51,8 +51,8 @@ extends CharacterBody3D
 @export var motion_smoothing : bool = true
 @export var sprint_enabled : bool = true
 @export var crouch_enabled : bool = true
-@export_enum("Hold to Crouch", "Toggle Crouch") var crouch_mode : int = 0
-@export_enum("Hold to Sprint", "Toggle Sprint") var sprint_mode : int = 0
+@export_enum("Hold to Crouch", "Toggle Crouch") var crouch_mode : int = 1
+@export_enum("Hold to Sprint", "Toggle Sprint") var sprint_mode : int = 1
 @export var dynamic_fov : bool = true
 @export var continuous_jumping : bool = false
 @export var view_bobbing : bool = true
@@ -73,6 +73,8 @@ var was_on_floor : bool = true # Was the player on the floor last frame (for lan
 # Get the gravity from the project settings to be synced with RigidBody nodes
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity") # Don't set this as a const, see the gravity section in _physics_process
 
+func _enter_tree():
+	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
 	#It is safe to comment this line if your game doesn't start with the mouse captured
@@ -349,21 +351,21 @@ func on_ladder_exited(node, ladder):
 	# Add your code for ladder interaction here
 	
 func can_climb_ladder(input_dir):
-	var direction = input_dir.rotated(-HEAD.rotation.y)
-	direction = Vector3(direction.x, 0, direction.y)
-	
-	if self.ladder:	
-		# check collisions
-		if RAYCAST.is_colliding():
-			var collider = RAYCAST.get_collider()
-			# the parent of this collision would be the ladder
-			var ladderNode = collider.get_parent_node_3d()
-			if self.ladder == ladderNode:
-				#print("Raycast hit object: ", ladderNode)
-				return true
-		#RAYCAST.enabled = false
-	else:
-		return false
+	#var direction = input_dir.rotated(-HEAD.rotation.y)
+	#direction = Vector3(direction.x, 0, direction.y)
+	#
+	#if self.ladder:	
+		## check collisions
+		#if RAYCAST.is_colliding():
+			#var collider = RAYCAST.get_collider()
+			## the parent of this collision would be the ladder
+			#var ladderNode = collider.get_parent_node_3d()
+			#if self.ladder == ladderNode:
+				##print("Raycast hit object: ", ladderNode)
+				#return true
+		##RAYCAST.enabled = false
+	#else:
+	return false
 
 func can_jump():
 	return (is_on_floor() or state == "climbing") and !low_ceiling

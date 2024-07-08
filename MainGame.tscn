@@ -38,27 +38,7 @@ script = ExtResource("1_pk6ti")
 scale_size = Vector2i(800, 600)
 
 [node name="Character" parent="." instance=ExtResource("1_s4aoh")]
-transform = Transform3D(0.0997539, 0, 0.995012, 0, 1, 0, -0.995012, 0, 0.0997539, 0, 0, 0)
-jump_velocity = 3.0
-
-[node name="Camera" parent="Character/Head/HeadAnimationLayer" index="0"]
-cull_mask = 1048575
-
-[node name="WeaponController" parent="Character/Head/HeadAnimationLayer/Camera" index="0" node_paths=PackedStringArray("Evironment")]
-Evironment = NodePath("../../../../../Environment")
-
-[node name="InteractRayCast" type="RayCast3D" parent="Character/Head/HeadAnimationLayer/Camera/WeaponController" index="4"]
-target_position = Vector3(2.08165e-12, 2.08165e-12, -1.5)
-collision_mask = 4
-
-[node name="WeaponViewport" parent="Character" index="8"]
-visible = false
-
-[node name="SubViewport" parent="Character/WeaponViewport" index="0"]
-render_target_update_mode = 0
-
-[node name="Camera3D" parent="Character/WeaponViewport/SubViewport" index="0"]
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000167668, 0.000884533, -0.000932336)
 
 [node name="Environment" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000167668, 0.000884533, -0.000932336)
@@ -106,5 +86,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.132908, -0.189126, -0.17252
 [node name="WallWeapon4" parent="Environment/GunWall" instance=ExtResource("5_01spn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.132908, -0.186066, 1.22031)
 weaponType = 1
-
-[editable path="Character"]

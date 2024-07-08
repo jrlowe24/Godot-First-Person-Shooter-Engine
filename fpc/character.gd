@@ -20,12 +20,12 @@ extends CharacterBody3D
 @export var immobile : bool = false
 
 @export_group("Nodes")
-@export var HEAD : Node3D
-@export var CAMERA : Camera3D
-@export var HEADBOB_ANIMATION : AnimationPlayer
-@export var JUMP_ANIMATION : AnimationPlayer
-@export var CROUCH_ANIMATION : AnimationPlayer
-@export var COLLISION_MESH : CollisionShape3D
+@onready var HEAD : Node3D = $Head
+@onready var CAMERA : Camera3D = $Head/HeadAnimationLayer/Camera
+@onready var HEADBOB_ANIMATION : AnimationPlayer = $Head/HeadbobAnimation
+@onready var JUMP_ANIMATION : AnimationPlayer = $Head/JumpAnimation
+@onready var CROUCH_ANIMATION : AnimationPlayer = $CrouchAnimation
+@onready var COLLISION_MESH : CollisionShape3D = $Collision
 @export var RAYCAST : RayCast3D
 
 @export_group("Controls")
@@ -36,8 +36,8 @@ extends CharacterBody3D
 @export var FORWARD : String = "ui_up"
 @export var BACKWARD : String = "ui_down"
 @export var PAUSE : String = "ui_cancel"
-@export var CROUCH : String
-@export var SPRINT : String
+@export var CROUCH : String = "crouch"
+@export var SPRINT : String = "spring"
 
 # Uncomment if you want full controller support
 #@export var LOOK_LEFT : String

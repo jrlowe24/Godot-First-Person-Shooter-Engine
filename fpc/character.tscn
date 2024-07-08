@@ -440,23 +440,8 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH")]
+[node name="Character" type="CharacterBody3D"]
 script = ExtResource("1_hivu4")
-crouch_speed = 1.5
-joystick_sensitivity_x = 250.0
-joystick_sensitivity_y = 175.0
-joystick_aim_sensitivity_x = 100.0
-joystick_aim_sensitivity_y = 75.0
-HEAD = NodePath("Head")
-CAMERA = NodePath("Head/HeadAnimationLayer/Camera")
-HEADBOB_ANIMATION = NodePath("Head/HeadbobAnimation")
-JUMP_ANIMATION = NodePath("Head/JumpAnimation")
-CROUCH_ANIMATION = NodePath("CrouchAnimation")
-COLLISION_MESH = NodePath("Collision")
-CROUCH = "crouch"
-SPRINT = "sprint"
-crouch_mode = 1
-sprint_mode = 1
 
 [node name="Sounds" type="Node3D" parent="." node_paths=PackedStringArray("swayController", "character")]
 transform = Transform3D(1, 0, 3.3803e-09, 0, 1, 0, 1.988e-09, 0, 1, 0, 0, 0)
@@ -572,6 +557,10 @@ transform = Transform3D(1, -4.61893e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.3226
 
 [node name="WeaponHolder" type="Node3D" parent="Head/HeadAnimationLayer/Camera/WeaponController/GunRecoilController/SwayController/AnimationLayer"]
 transform = Transform3D(1, -1.33519e-08, 1.28628e-08, -8.65896e-09, 1, -5.4536e-09, 6.19989e-10, -3.01693e-08, 1, 0, 0, 0)
+
+[node name="InteractRayCast" type="RayCast3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
+target_position = Vector3(2.08165e-12, 2.08165e-12, -2.5)
+collision_mask = 4
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Head/HeadAnimationLayer/Camera/WeaponController"]
 stream = ExtResource("5_mw5o4")

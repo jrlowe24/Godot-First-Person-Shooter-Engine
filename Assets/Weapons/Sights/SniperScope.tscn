@@ -244,7 +244,7 @@ void fragment() {
 }
 "
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_mtf02"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_i0y3l"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8l8rm"]
@@ -266,7 +266,7 @@ shader_parameter/_Vignette = 0.1
 shader_parameter/fov = 47.0
 shader_parameter/tex_scale = 1.3
 shader_parameter/intensity_factor = 1.0
-shader_parameter/texture_albedo = SubResource("ViewportTexture_mtf02")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_i0y3l")
 shader_parameter/_ReticleTex = ExtResource("2_spthe")
 
 [sub_resource type="SphereMesh" id="SphereMesh_ciog4"]

@@ -8,7 +8,7 @@ extends CharacterBody3D
 @export var slide_speed : float = 5.0
 @export var ladder_speed : float = 2.0
 @export var acceleration : float = 10.0
-@export var jump_velocity : float = 4.5
+@export var jump_velocity : float = 3.5
 @export var mouse_sensitivity : float = 0.1
 @export var joystick_sensitivity_x : float = 300
 @export var joystick_sensitivity_y : float = 200
@@ -37,7 +37,7 @@ extends CharacterBody3D
 @export var BACKWARD : String = "ui_down"
 @export var PAUSE : String = "ui_cancel"
 @export var CROUCH : String = "crouch"
-@export var SPRINT : String = "spring"
+@export var SPRINT : String = "sprint"
 
 # Uncomment if you want full controller support
 #@export var LOOK_LEFT : String
@@ -51,8 +51,8 @@ extends CharacterBody3D
 @export var motion_smoothing : bool = true
 @export var sprint_enabled : bool = true
 @export var crouch_enabled : bool = true
-@export_enum("Hold to Crouch", "Toggle Crouch") var crouch_mode : int = 0
-@export_enum("Hold to Sprint", "Toggle Sprint") var sprint_mode : int = 0
+@export_enum("Hold to Crouch", "Toggle Crouch") var crouch_mode : int = 1
+@export_enum("Hold to Sprint", "Toggle Sprint") var sprint_mode : int = 1
 @export var dynamic_fov : bool = true
 @export var continuous_jumping : bool = false
 @export var view_bobbing : bool = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=40 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" path="res://fpc/character.gd" id="1_hivu4"]
 [ext_resource type="Script" path="res://fpc/SwayController.gd" id="2_5lhc7"]
@@ -180,6 +180,39 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, -6.61341e-24, 2.30946e-25, 1)
 
+[sub_resource type="Animation" id="Animation_x6mrl"]
+resource_name = "SwapWeapons"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GunRecoilController/SwayController/AnimationLayer:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.32268e-23, 4.61892e-25), Vector3(-0.872665, 0.349066, 3.48787e-16), Vector3(3.48787e-16, 3.48787e-16, 3.48787e-16)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"startWeaponSwap"
+}, {
+"args": [],
+"method": &"swapWeapons"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_1dorw"]
 resource_name = "WeaponExit"
 length = 0.2
@@ -201,6 +234,7 @@ tracks/1/keys = PackedFloat32Array(0, 1, 0, -6.61341e-24, 2.30946e-25, 1, 0.2, 1
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vbxay"]
 _data = {
 "Reset": SubResource("Animation_gevof"),
+"SwapWeapons": SubResource("Animation_x6mrl"),
 "WeaponExit": SubResource("Animation_1dorw")
 }
 
@@ -553,7 +587,7 @@ maxBobSpeed = 4.5
 [node name="AnimationLayer" type="Node3D" parent="Head/HeadAnimationLayer/Camera/WeaponController/GunRecoilController/SwayController"]
 editor_description = "This node is used for applying animations onto in order to move the weapon, we can probably get rid of this node and use the weapon controller
 "
-transform = Transform3D(1, -4.61893e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.32268e-23, 0, 1, 0, 0, 0)
+transform = Transform3D(1, -4.61892e-25, -1.32268e-23, 4.61892e-25, 1, 0, 1.32268e-23, 0, 1, 0, 0, 0)
 
 [node name="WeaponHolder" type="Node3D" parent="Head/HeadAnimationLayer/Camera/WeaponController/GunRecoilController/SwayController/AnimationLayer"]
 transform = Transform3D(1, -1.33519e-08, 1.28628e-08, -8.65896e-09, 1, -5.4536e-09, 6.19989e-10, -3.01693e-08, 1, 0, 0, 0)
@@ -580,7 +614,7 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_o0unb")
 }
-blend_times = [&"RESET", &"RESET", 0.5, &"RESET", &"walk", 0.5, &"walk", &"RESET", 0.5]
+blend_times = [&"walk", &"RESET", 0.5, &"RESET", &"walk", 0.5, &"RESET", &"RESET", 0.5]
 
 [node name="JumpAnimation" type="AnimationPlayer" parent="Head"]
 libraries = {

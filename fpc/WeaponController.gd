@@ -59,15 +59,15 @@ func _ready():
 	#var primary = preload("res://Assets/Weapons/Ak47/ak_47_rig_v_4.tscn").instantiate()
 	#var secondary = preload("res://Assets/Weapons/M4/m4_rig.tscn").instantiate()
 	var sidearm = preload("res://Assets/Weapons/Glock/glock_rig.tscn").instantiate()
-	#var sniper = preload("res://Assets/Weapons/Sniper/sniper_rig.tscn").instantiate()
+	var sniper = preload("res://Assets/Weapons/Sniper/sniper_rig.tscn").instantiate()
 	#weaponList.append(primary)
 	#weaponList.append(secondary)
 	weaponList.append(sidearm)
-	#weaponList.append(sniper)
+	weaponList.append(sniper)
 	#weaponHolder.add_child(primary)
 	#weaponHolder.add_child(secondary)
 	weaponHolder.add_child(sidearm)
-	#weaponHolder.add_child(sniper)
+	weaponHolder.add_child(sniper)
 	#primary.set_active(true)
 	sidearm.hit_detected.connect(_on_weapon_hit_detected)
 	sidearm.set_active(true)
@@ -84,6 +84,7 @@ func _process(delta):
 	if weaponState == "swapping":
 		# wait until animation putting away current weapon is done
 		if animationTime <= 0:
+			
 			swapWeapons()
 			
 	if weaponState == "dropping":
@@ -102,6 +103,7 @@ func process_inputs(delta):
 	# weapon swapping
 	if Input.is_action_just_pressed("item1") and len(weaponList) > 1:
 		startWeaponSwap()
+		#weaponOperations.play("SwapWeapons")
 	
 	if Input.is_action_just_pressed("dropItem") and len(weaponList) > 0:
 		startWeaponDrop()
@@ -147,8 +149,10 @@ func _on_weapon_hit_detected(hit_info):
 
 
 func swapWeapons():
-	if curr_weapon <= len(weaponList) - 1:
-		weaponList[curr_weapon].set_active(false)
+	#if curr_weapon <= len(weaponList) - 1:
+		#weaponList[curr_weapon].set_active(false)
+	#curr_weapon = (curr_weapon + 1) % len(weaponList)
+	weaponList[curr_weapon].set_active(false)
 	curr_weapon = (curr_weapon + 1) % len(weaponList)
 	weaponList[curr_weapon].set_active(true)
 	weaponOperations.play_backwards("WeaponExit")
@@ -157,7 +161,10 @@ func swapWeapons():
 	
 func startWeaponSwap():
 	weaponOperations.play("WeaponExit")
-	getCurrWeapon().set_enabled(false)
+	#getCurrWeapon().set_enabled(false)
+	if curr_weapon <= len(weaponList) - 1:
+		weaponList[curr_weapon].set_enabled(false)
+
 	weaponState = "swapping"
 	animationTime = weaponOperations.get_animation("WeaponExit").length
 	

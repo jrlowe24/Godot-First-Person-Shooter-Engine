@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://bw7f3g0hnlyes" path="res://Assets/templategrid/TemplateGrid.tres" id="2_3p114"]
 [ext_resource type="Texture2D" uid="uid://gycdpcn51q0r" path="res://Assets/textures/kenney_prototype-textures/PNG/Light/texture_12.png" id="4_52ooa"]
 [ext_resource type="Texture2D" uid="uid://coskcd6bkvapy" path="res://Assets/textures/kenney_prototype-textures/PNG/Green/texture_01.png" id="4_lyaby"]
-[ext_resource type="PackedScene" uid="uid://gx0wl5clylg7" path="res://Assets/Weapons/wall_weapon.tscn" id="5_01spn"]
+[ext_resource type="PackedScene" uid="uid://balmxcih3o1ql" path="res://Assets/Weapons/wall_weapon.tscn" id="5_01spn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jah2a"]
 
